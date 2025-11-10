@@ -1,19 +1,23 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image, ViewStyle } from 'react-native';
 import { colors, typography, spacing } from '../../constants';
 import { CountdownTimer } from './CountdownTimer';
 
 export interface PromoCodeBoxProps {
   promoCode: string;
   remainingTime: number; // milliseconds
+  style?: ViewStyle;
+  testID?: string;
 }
 
 export const PromoCodeBox: React.FC<PromoCodeBoxProps> = ({
   promoCode,
   remainingTime,
+  style,
+  testID,
 }) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]} testID={testID}>
       <View style={styles.header}>
         <View style={styles.checkmarkContainer}>
           <Text style={styles.checkmark}>✓</Text>
@@ -21,7 +25,11 @@ export const PromoCodeBox: React.FC<PromoCodeBoxProps> = ({
         <Text style={styles.headerText}>Your Promo Code is Applied!</Text>
       </View>
 
-      <View style={styles.divider} />
+      <Image
+        source={require('../../assets/divider.png')}
+        style={styles.divider}
+        resizeMode="stretch"
+      />
 
       <View style={styles.content}>
         <View style={styles.promoCodeContainer}>
@@ -41,9 +49,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.accentLight,
     borderRadius: spacing.cardRadius,
-    borderWidth: 2,
-    borderStyle: 'dashed',
-    borderColor: colors.promoCodeBorder,
     padding: spacing.md,
   },
   header: {
@@ -70,10 +75,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   divider: {
-    height: 1,
-    backgroundColor: colors.promoCodeBorder,
+    width: '100%',
+    height: 2,
     marginVertical: spacing.md,
-    opacity: 0.3,
   },
   content: {
     flexDirection: 'row',

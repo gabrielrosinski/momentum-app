@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, Image } from 'react-native';
+import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, Image, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useDispatch } from 'react-redux';
-import { setEmail } from '../store/slices/userSlice';
+import { setEmail, resetUser } from '../store/slices/userSlice';
+import { resetTimer } from '../store/slices/timerSlice';
+import { clearPersistedData } from '../store/middleware/persistenceMiddleware';
 import { Header, Button, Input } from '../components';
 import { colors, spacing, typography, layout } from '../constants';
 import { validateEmail, getEmailError } from '../utils/validation';
@@ -61,6 +63,19 @@ export default function EmailScreen() {
       ? colors.textPrimary // Valid: black
       : colors.textSecondary; // Invalid: gray
 
+  // Dev: Reset all state (only visible in development mode)
+  const handleResetState = async () => {
+    try {
+      await clearPersistedData();
+      dispatch(resetUser());
+      dispatch(resetTimer());
+      Alert.alert('Dev Reset', 'All state cleared! (AsyncStorage + Redux)');
+    } catch (error) {
+      Alert.alert('Error', 'Failed to reset state');
+      console.error('Reset error:', error);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeArea} testID="emailScreen.safeArea">
       <KeyboardAvoidingView
@@ -69,6 +84,17 @@ export default function EmailScreen() {
         testID="emailScreen.keyboardAvoider"
       >
         <Header testID="emailScreen.header" />
+
+        {/* Dev Reset Button - Only visible in development */}
+        {__DEV__ && (
+          <TouchableOpacity
+            style={styles.devResetButton}
+            onPress={handleResetState}
+            testID="emailScreen.devResetButton"
+          >
+            <Text style={styles.devResetText}>🔄 Reset</Text>
+          </TouchableOpacity>
+        )}
 
         <View style={styles.contentWrapper} testID="emailScreen.contentWrapper">
           <View style={styles.content} testID="emailScreen.content">
@@ -189,5 +215,21 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: colors.backgroundWhite,
     marginLeft: spacing.sm,
+  },
+  // Dev Reset Button (only visible in development)
+  devResetButton: {
+    position: 'absolute',
+    top: spacing.lg,
+    right: spacing.md,
+    backgroundColor: colors.error,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: 8,
+    zIndex: 1000,
+  },
+  devResetText: {
+    color: colors.backgroundWhite,
+    fontSize: 12,
+    fontWeight: '600',
   },
 });

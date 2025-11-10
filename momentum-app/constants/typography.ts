@@ -18,6 +18,14 @@ export const typography = {
     lineHeight: 32,
     letterSpacing: -0.3,
   },
+  h3: {
+    font: "Gothic A1",
+    fontstyle: 'Bold' as const,
+    fontSize: 28,
+    fontWeight: '600' as const,
+    lineHeight: 32,
+    letterSpacing: -0.3,
+  },
 
 
   // Body Text

@@ -54,10 +54,15 @@ const timerSlice = createSlice({
         state.expired = remaining === 0;
       }
     },
+    resetTimer: (state) => {
+      state.startTime = null;
+      state.expired = false;
+      state.remainingTime = TIMER_DURATION;
+    },
   },
 });
 
-export const { startTimer, updateRemainingTime, expireTimer, loadTimerFromStorage } = timerSlice.actions;
+export const { startTimer, updateRemainingTime, expireTimer, loadTimerFromStorage, resetTimer } = timerSlice.actions;
 export default timerSlice.reducer;
 
 // Helper function to format time

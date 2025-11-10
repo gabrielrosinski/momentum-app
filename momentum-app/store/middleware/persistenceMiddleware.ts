@@ -92,3 +92,20 @@ export const loadPersistedData = async () => {
     };
   }
 };
+
+// Helper function to clear all persisted data (for development/testing)
+export const clearPersistedData = async () => {
+  try {
+    await AsyncStorage.multiRemove([
+      STORAGE_KEYS.USER_EMAIL,
+      STORAGE_KEYS.USER_NAME,
+      STORAGE_KEYS.PROMO_CODE,
+      STORAGE_KEYS.TIMER_START,
+      STORAGE_KEYS.TIMER_EXPIRED,
+      STORAGE_KEYS.PURCHASE_DETAILS,
+    ]);
+    console.log('All persisted data cleared successfully');
+  } catch (error) {
+    console.error('Error clearing persisted data:', error);
+  }
+};
