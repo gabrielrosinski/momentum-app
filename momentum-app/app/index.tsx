@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -17,6 +17,26 @@ export default function EmailScreen() {
   const error = getEmailError(email);
   const isValid = email.length > 0 && validateEmail(email);
 
+  // Debounced validation - check 500ms after user stops typing
+  useEffect(() => {
+    if (email.length === 0) {
+      setShowError(false);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      // After 500ms of no typing, validate
+      if (!validateEmail(email)) {
+        setShowError(true);
+      } else {
+        setShowError(false);
+      }
+    }, 500);
+
+    // Clear timer if user types again before 500ms
+    return () => clearTimeout(timer);
+  }, [email]);
+
   const handleContinue = () => {
     if (isValid) {
       dispatch(setEmail(email));
@@ -28,11 +48,18 @@ export default function EmailScreen() {
 
   const handleChange = (text: string) => {
     setEmailValue(text);
-    // Clear error when user starts typing valid email
-    if (showError && text.length > 0 && validateEmail(text)) {
+    // Clear error immediately when user starts typing
+    if (showError) {
       setShowError(false);
     }
   };
+
+  // Determine input text color based on validation state
+  const inputTextColor = email.length === 0
+    ? colors.textSecondary // Empty: gray
+    : isValid
+      ? colors.textPrimary // Valid: black
+      : colors.textSecondary; // Invalid: gray
 
   return (
     <SafeAreaView style={styles.safeArea} testID="emailScreen.safeArea">
@@ -57,11 +84,12 @@ export default function EmailScreen() {
               autoCapitalize="none"
               autoCorrect={false}
               error={showError && error ? error : undefined}
+              textColor={inputTextColor}
               style={styles.input}
               inputStyle={
                 email.length === 0
                   ? styles.centeredPlaceholder
-                  : undefined
+                  : styles.filledInput
               }
               testID="emailScreen.emailInput"
             />
@@ -126,11 +154,13 @@ const styles = StyleSheet.create({
     height: 70,
     justifyContent: 'center',
     alignContent: 'center',
-    color: colors.textSecondary,
   },
   centeredPlaceholder: {
     ...typography.h2,
     textAlign: 'center',
+  },
+  filledInput: {
+    ...typography.h1,
   },
   disclaimer: {
     flexDirection: 'row',

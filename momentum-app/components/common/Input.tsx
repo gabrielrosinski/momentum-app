@@ -20,6 +20,7 @@ export interface InputProps {
   autoCorrect?: boolean;
   style?: ViewStyle;
   inputStyle?: TextStyle;
+  textColor?: string;
   editable?: boolean;
   testID?: string;
 }
@@ -34,6 +35,7 @@ export const Input: React.FC<InputProps> = ({
   autoCorrect = false,
   style,
   inputStyle,
+  textColor,
   editable = true,
   testID,
 }) => {
@@ -49,6 +51,7 @@ export const Input: React.FC<InputProps> = ({
   const textInputStyle = [
     styles.input,
     error && styles.inputError,
+    textColor && { color: textColor },
     inputStyle,
   ];
 
@@ -92,13 +95,13 @@ const styles = StyleSheet.create({
   },
   input: {
     ...typography.input,
-    color: colors.textPrimary,
+    color: colors.textSecondary,
     padding: 0,
     margin: 0,
     textAlignVertical: 'center',
   },
   inputError: {
-    color: colors.textPrimary,
+    color: colors.textSecondary,
   },
   errorText: {
     ...typography.error,

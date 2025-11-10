@@ -18,18 +18,7 @@ export const typography = {
     lineHeight: 32,
     letterSpacing: -0.3,
   },
-  // h3: {
-  //   fontSize: 20,
-  //   fontWeight: '600' as const,
-  //   lineHeight: 28,
-  //   letterSpacing: -0.2,
-  // },
-  // h4: {
-  //   fontSize: 18,
-  //   fontWeight: '600' as const,
-  //   lineHeight: 24,
-  //   letterSpacing: 0,
-  // },
+
 
   // Body Text
   body: {
