@@ -3,29 +3,33 @@
 export const typography = {
   // Headers
   h1: {
-    fontSize: 28,
-    fontWeight: '700' as const,
+    font: "Gothic A1",
+    fontSize: 30,
+    fontWeight: '600' as const,
+    fontstyle: 'SemiBold' as const,
     lineHeight: 36,
     letterSpacing: -0.5,
   },
   h2: {
-    fontSize: 24,
+    font: "Gothic A1",
+    fontstyle: 'SemiBold' as const,
+    fontSize: 30,
     fontWeight: '600' as const,
     lineHeight: 32,
     letterSpacing: -0.3,
   },
-  h3: {
-    fontSize: 20,
-    fontWeight: '600' as const,
-    lineHeight: 28,
-    letterSpacing: -0.2,
-  },
-  h4: {
-    fontSize: 18,
-    fontWeight: '600' as const,
-    lineHeight: 24,
-    letterSpacing: 0,
-  },
+  // h3: {
+  //   fontSize: 20,
+  //   fontWeight: '600' as const,
+  //   lineHeight: 28,
+  //   letterSpacing: -0.2,
+  // },
+  // h4: {
+  //   fontSize: 18,
+  //   fontWeight: '600' as const,
+  //   lineHeight: 24,
+  //   letterSpacing: 0,
+  // },
 
   // Body Text
   body: {

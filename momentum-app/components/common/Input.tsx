@@ -21,6 +21,7 @@ export interface InputProps {
   style?: ViewStyle;
   inputStyle?: TextStyle;
   editable?: boolean;
+  testID?: string;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -34,6 +35,7 @@ export const Input: React.FC<InputProps> = ({
   style,
   inputStyle,
   editable = true,
+  testID,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -51,7 +53,7 @@ export const Input: React.FC<InputProps> = ({
   ];
 
   return (
-    <View>
+    <View testID={testID}>
       <View style={containerStyle}>
         <TextInput
           style={textInputStyle}
@@ -79,6 +81,7 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.border,
     paddingHorizontal: spacing.inputPadding.horizontal,
     paddingVertical: spacing.inputPadding.vertical,
+    justifyContent: 'center',
   },
   containerFocused: {
     borderBottomColor: colors.primary,
@@ -92,6 +95,7 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     padding: 0,
     margin: 0,
+    textAlignVertical: 'center',
   },
   inputError: {
     color: colors.textPrimary,

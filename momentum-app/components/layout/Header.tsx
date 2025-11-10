@@ -1,12 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
 import { colors, typography, spacing, layout } from '../../constants';
+import Logo from '../../assets/icons/logo.svg';
 
 export interface HeaderProps {
   showBackButton?: boolean;
   onBackPress?: () => void;
   title?: string;
   style?: ViewStyle;
+  testID?: string;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -14,9 +16,10 @@ export const Header: React.FC<HeaderProps> = ({
   onBackPress,
   title,
   style,
+  testID,
 }) => {
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, style]} testID={testID}>
       <View style={styles.leftSection}>
         {showBackButton && (
           <TouchableOpacity
@@ -33,12 +36,7 @@ export const Header: React.FC<HeaderProps> = ({
         {title ? (
           <Text style={styles.title}>{title}</Text>
         ) : (
-          <View style={styles.logoContainer}>
-            <Text style={styles.logo}>Momentum</Text>
-            <View style={styles.checkmark}>
-              <Text style={styles.checkmarkText}>✓</Text>
-            </View>
-          </View>
+          <Logo width={129} height={25} />
         )}
       </View>
 
@@ -80,29 +78,5 @@ const styles = StyleSheet.create({
   title: {
     ...typography.h4,
     color: colors.textPrimary,
-  },
-  logoContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  logo: {
-    ...typography.h3,
-    color: colors.textPrimary,
-    fontWeight: '700',
-  },
-  checkmark: {
-    width: 16,
-    height: 16,
-    borderRadius: 8,
-    backgroundColor: colors.accent,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: spacing.xs,
-    marginTop: -8,
-  },
-  checkmarkText: {
-    color: colors.backgroundWhite,
-    fontSize: 10,
-    fontWeight: '700',
   },
 });

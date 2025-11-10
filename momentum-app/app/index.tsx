@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useDispatch } from 'react-redux';
 import { setEmail } from '../store/slices/userSlice';
@@ -34,66 +35,77 @@ export default function EmailScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <Header />
-
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        keyboardShouldPersistTaps="handled"
+    <SafeAreaView style={styles.safeArea} testID="emailScreen.safeArea">
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        testID="emailScreen.keyboardAvoider"
       >
-        <View style={styles.content}>
-          <Text style={styles.title}>
-            Enter your email to get your personalized Calisthenics Workout Plan
-          </Text>
+        <Header testID="emailScreen.header" />
 
-          <Input
-            value={email}
-            onChangeText={handleChange}
-            placeholder="name@domain.com"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-            error={showError && error ? error : undefined}
-            style={styles.input}
-          />
-
-          <View style={styles.disclaimer}>
-            <Text style={styles.disclaimerIcon}>🔒</Text>
-            <Text style={styles.disclaimerText}>
-              We respect your privacy and are committed to protecting your personal data. We'll
-              email you a copy of your results for convenient access.
+        <View style={styles.contentWrapper} testID="emailScreen.contentWrapper">
+          <View style={styles.content} testID="emailScreen.content">
+            <Text style={styles.title} testID="emailScreen.title">
+              Enter your email to get your personalized Calisthenics Workout Plan
             </Text>
+
+            <Input
+              value={email}
+              onChangeText={handleChange}
+              placeholder="name@domain.com"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
+              error={showError && error ? error : undefined}
+              style={styles.input}
+              inputStyle={
+                email.length === 0
+                  ? styles.centeredPlaceholder
+                  : undefined
+              }
+              testID="emailScreen.emailInput"
+            />
+
+            <View style={styles.disclaimer} testID="emailScreen.disclaimer">
+              <Image
+                source={require('../assets/icons/lock.png')}
+                style={styles.disclaimerIcon}
+                testID="emailScreen.disclaimerIcon"
+              />
+              <Text style={styles.disclaimerText} testID="emailScreen.disclaimerText">
+                We respect your privacy and are committed to protecting your personal data. We'll
+                email you a copy of your results for convenient access.
+              </Text>
+            </View>
           </View>
         </View>
-      </ScrollView>
 
-      <View style={styles.footer}>
-        <Button
-          title="Continue"
-          onPress={handleContinue}
-          disabled={!isValid}
-          variant="primary"
-          icon={<Text style={styles.buttonIcon}>→</Text>}
-        />
-      </View>
-    </KeyboardAvoidingView>
+        <View style={styles.footer} testID="emailScreen.footer">
+          <Button
+            title="Continue"
+            onPress={handleContinue}
+            disabled={!isValid}
+            variant="primary"
+            icon={<Text style={styles.buttonIcon} testID="emailScreen.buttonIcon">→</Text>}
+            testID="emailScreen.continueButton"
+          />
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: colors.backgroundWhite,
+  },
   container: {
     flex: 1,
     backgroundColor: colors.background,
   },
-  scrollView: {
+  contentWrapper: {
     flex: 1,
-  },
-  scrollContent: {
-    flexGrow: 1,
   },
   content: {
     flex: 1,
@@ -101,13 +113,24 @@ const styles = StyleSheet.create({
     paddingTop: spacing.lg,
   },
   title: {
-    ...typography.h2,
+    ...typography.h1,
     color: colors.textPrimary,
     marginBottom: spacing.xl,
     lineHeight: 32,
+    height: 99,
+    flexShrink: 1,
+    flexWrap: 'wrap',
   },
   input: {
     marginBottom: spacing.md,
+    height: 70,
+    justifyContent: 'center',
+    alignContent: 'center',
+    color: colors.textSecondary,
+  },
+  centeredPlaceholder: {
+    ...typography.h2,
+    textAlign: 'center',
   },
   disclaimer: {
     flexDirection: 'row',
@@ -115,9 +138,11 @@ const styles = StyleSheet.create({
     marginTop: spacing.md,
   },
   disclaimerIcon: {
-    fontSize: 14,
+    width: 16,
+    height: 18,
     marginRight: spacing.sm,
     marginTop: 2,
+    resizeMode: 'contain',
   },
   disclaimerText: {
     ...typography.bodySmall,

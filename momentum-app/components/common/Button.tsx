@@ -19,6 +19,7 @@ export interface ButtonProps {
   icon?: React.ReactNode;
   style?: ViewStyle;
   textStyle?: TextStyle;
+  testID?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -30,6 +31,7 @@ export const Button: React.FC<ButtonProps> = ({
   icon,
   style,
   textStyle,
+  testID,
 }) => {
   const buttonStyle = [
     styles.button,
@@ -53,6 +55,7 @@ export const Button: React.FC<ButtonProps> = ({
       onPress={onPress}
       disabled={disabled || loading}
       activeOpacity={0.7}
+      testID={testID}
     >
       {loading ? (
         <ActivityIndicator
@@ -60,8 +63,8 @@ export const Button: React.FC<ButtonProps> = ({
         />
       ) : (
         <View style={styles.buttonContent}>
-          {icon && <View style={styles.iconContainer}>{icon}</View>}
           <Text style={buttonTextStyle}>{title}</Text>
+          {icon && <View style={styles.iconContainer}>{icon}</View>}
         </View>
       )}
     </TouchableOpacity>
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   iconContainer: {
-    marginRight: spacing.sm,
+    marginLeft: spacing.sm,
   },
   buttonText: {
     ...typography.button,

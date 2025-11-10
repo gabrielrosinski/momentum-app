@@ -25,7 +25,7 @@ export const colors = {
 
   // Text
   textPrimary: '#000000',       // Black (primary text)
-  textSecondary: '#6B6B6B',     // Dark gray (secondary text)
+  textSecondary: '#999999',     // Dark gray (secondary text)
   textTertiary: '#9B9B9B',      // Light gray (tertiary text, placeholders)
   textPlaceholder: '#A0A0A0',   // Gray (input placeholders)
   textDisabled: '#CCCCCC',      // Very light gray (disabled text)
