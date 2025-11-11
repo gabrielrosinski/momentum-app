@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { colors, typography, spacing } from '../../constants';
 
 export interface PricingCardProps {
@@ -26,20 +26,46 @@ export const PricingCard: React.FC<PricingCardProps> = ({
 
   return (
     <View style={[styles.container, { borderColor }]} testID={testID ?? 'pricingCard.container'}>
-      {/* Top Row: Radio + Title | Per Day Price */}
+      {/* Top Row */}
       <View style={styles.topRow} testID="pricingCard.topRow">
-        <View style={styles.leftSection} testID="pricingCard.leftSection">
-          {/* Radio Button */}
-          <View style={styles.radioOuter} testID="pricingCard.radioOuter">
-            {isSelected && <View style={styles.radioInner} testID="pricingCard.radioInner" />}
-          </View>
+        {/* Radio Button - vertically centered */}
+        {isSelected && (
+          <Image
+            source={require('../../assets/icons/circle.png')}
+            style={styles.radioImage}
+            resizeMode="contain"
+            testID="pricingCard.radioImage"
+          />
+        )}
 
+        {/* Left Section: Title + Price */}
+        <View style={styles.leftSection} testID="pricingCard.leftSection">
           {/* Title */}
           <Text style={styles.title} testID="pricingCard.title">{title}</Text>
+
+          {/* Price Display Row */}
+          <View style={styles.priceRow} testID="pricingCard.priceRow">
+            {isDiscountActive ? (
+              // Discount Active: Show strikethrough full price + discounted price
+              <>
+                <Text style={styles.priceStrikethrough} testID="pricingCard.priceStrikethrough">
+                  ${fullPrice.toFixed(2)} USD
+                </Text>
+                <Text style={styles.priceDiscounted} testID="pricingCard.priceDiscounted">
+                  {' '}{currentPrice.toFixed(2)} USD
+                </Text>
+              </>
+            ) : (
+              // Discount Expired: Show only full price
+              <Text style={styles.priceFull} testID="pricingCard.priceFull">
+                ${currentPrice.toFixed(2)} USD
+              </Text>
+            )}
+          </View>
         </View>
 
+        {/* Right Section: Per Day Price */}
         <View style={styles.rightSection} testID="pricingCard.rightSection">
-          {/* Per Day Price */}
           <View style={styles.perDayRow} testID="pricingCard.perDayRow">
             <Text style={styles.perDayPrice} testID="pricingCard.perDayPrice">
               {perDayPrice.toFixed(2)}
@@ -48,26 +74,6 @@ export const PricingCard: React.FC<PricingCardProps> = ({
           </View>
           <Text style={styles.perDayLabel} testID="pricingCard.perDayLabel">per day</Text>
         </View>
-      </View>
-
-      {/* Price Display Row */}
-      <View style={styles.priceRow} testID="pricingCard.priceRow">
-        {isDiscountActive ? (
-          // Discount Active: Show strikethrough full price + discounted price
-          <>
-            <Text style={styles.priceStrikethrough} testID="pricingCard.priceStrikethrough">
-              ${fullPrice.toFixed(2)} USD
-            </Text>
-            <Text style={styles.priceDiscounted} testID="pricingCard.priceDiscounted">
-              {' '}{currentPrice.toFixed(2)} USD
-            </Text>
-          </>
-        ) : (
-          // Discount Expired: Show only full price
-          <Text style={styles.priceFull} testID="pricingCard.priceFull">
-            ${currentPrice.toFixed(2)} USD
-          </Text>
-        )}
       </View>
 
       {/* Badge */}
@@ -88,18 +94,17 @@ const styles = StyleSheet.create({
   topRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     paddingHorizontal: spacing.md,
     paddingTop: spacing.md,
     paddingBottom: spacing.sm,
   },
   leftSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'column',
     flex: 1,
   },
   rightSection: {
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
   },
   perDayRow: {
     flexDirection: 'row',
@@ -108,28 +113,19 @@ const styles = StyleSheet.create({
   },
 
   // Radio Button
-  radioOuter: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: spacing.sm,
-  },
-  radioInner: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: colors.primary,
+  radioImage: {
+    width: 24,
+    height: 24,
+    marginRight: 10,
   },
 
   // Title
   title: {
-    ...typography.bodyMedium,
+    fontSize: typography.bodyMedium.fontSize,
     fontWeight: '600',
     color: colors.textPrimary,
+    lineHeight: typography.bodyMedium.fontSize,
+    includeFontPadding: false,
   },
 
   // Per Day Price
@@ -157,22 +153,29 @@ const styles = StyleSheet.create({
   priceRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: spacing.md,
-    paddingBottom: spacing.md,
+    marginTop: 5,
   },
   priceStrikethrough: {
-    ...typography.bodyMedium,
+    fontSize: typography.bodyMedium.fontSize,
+    fontWeight: '500',
     color: colors.error,
     textDecorationLine: 'line-through',
+    lineHeight: typography.bodyMedium.fontSize,
+    includeFontPadding: false,
   },
   priceDiscounted: {
-    ...typography.bodyMedium,
+    fontSize: typography.bodyMedium.fontSize,
+    fontWeight: '500',
     color: colors.textSecondary,
+    lineHeight: typography.bodyMedium.fontSize,
+    includeFontPadding: false,
   },
   priceFull: {
-    ...typography.bodyMedium,
+    fontSize: typography.bodyMedium.fontSize,
     fontWeight: '600',
     color: colors.textPrimary,
+    lineHeight: typography.bodyMedium.fontSize,
+    includeFontPadding: false,
   },
 
   // Badge
