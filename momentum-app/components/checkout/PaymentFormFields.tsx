@@ -41,23 +41,25 @@ export const PaymentFormFields: React.FC<PaymentFormFieldsProps> = ({
 
       {/* Expiry and CVV (side by side) */}
       <View style={styles.splitRow} testID={`${testID}.splitRow`}>
-        <View style={styles.splitInput} testID={`${testID}.expiryWrapper`}>
+        <View style={styles.splitInputWrapper} testID={`${testID}.expiryWrapper`}>
           <Input
             value={values.expiryDate}
             onChangeText={handlers.handleExpiryChange}
             placeholder="MM/YY"
             keyboardType="number-pad"
             error={errors.expiryError || undefined}
+            errorTextStyle={{ fontSize: 12, marginTop: 5, marginBottom: 0, textAlign: 'left' }}
             testID={`${testID}.expiryInput`}
           />
         </View>
-        <View style={styles.splitInput} testID={`${testID}.cvvWrapper`}>
+        <View style={styles.splitInputWrapper} testID={`${testID}.cvvWrapper`}>
           <Input
             value={values.cvv}
             onChangeText={handlers.handleCVVChange}
             placeholder="CVV"
             keyboardType="number-pad"
             error={errors.cvvError || undefined}
+            errorTextStyle={{ fontSize: 12, marginTop: 5, marginBottom: 0, textAlign: 'left' }}
             testID={`${testID}.cvvInput`}
           />
         </View>
@@ -98,11 +100,13 @@ const styles = StyleSheet.create({
   },
   splitRow: {
     flexDirection: 'row',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
     gap: 15,
     marginBottom: 15,
   },
-  splitInput: {
+  splitInputWrapper: {
     flex: 1,
+    flexDirection: 'column',
   },
 });

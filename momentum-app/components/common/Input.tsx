@@ -22,6 +22,7 @@ export interface InputProps {
   inputStyle?: TextStyle;
   textColor?: string;
   editable?: boolean;
+  errorTextStyle?: TextStyle;
   testID?: string;
 }
 
@@ -37,6 +38,7 @@ export const Input: React.FC<InputProps> = ({
   inputStyle,
   textColor,
   editable = true,
+  errorTextStyle,
   testID,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -72,7 +74,7 @@ export const Input: React.FC<InputProps> = ({
           editable={editable}
         />
       </View>
-      {error && <Text style={styles.errorText}>{error}</Text>}
+      {error && <Text style={[styles.errorText, errorTextStyle]}>{error}</Text>}
     </View>
   );
 };
@@ -108,7 +110,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: typography.error.fontWeight,
     color: colors.error,
-    marginTop: -10, // Negative margin to offset: 12px paddingBottom + 1px border + 2px lineHeight = -13px, +5px desired = -8px (using -10 for visual adjustment)
+    marginTop: -10,
     marginBottom: 0,
     textAlign: 'center',
     lineHeight: 14,
