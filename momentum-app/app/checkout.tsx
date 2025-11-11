@@ -423,7 +423,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: spacing.sm,
+    marginBottom: 12.5,
   },
   totalLabel: {
     ...typography.bodyMedium,
@@ -438,6 +438,7 @@ const styles = StyleSheet.create({
   savingsRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    alignSelf: 'flex-end',
     gap: spacing.xs,
   },
   flameIcon: {
@@ -445,7 +446,7 @@ const styles = StyleSheet.create({
     height: 16,
   },
   savingsText: {
-    ...typography.bodySmall,
+    ...typography.bodySmallMedium,
     color: colors.error,
     fontWeight: '600',
   },

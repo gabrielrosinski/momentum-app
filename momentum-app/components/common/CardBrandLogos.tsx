@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
   },
   logo: {
-    width: 50,
-    height: 32,
+    width: 53,
+    height: 36,
   },
 });
