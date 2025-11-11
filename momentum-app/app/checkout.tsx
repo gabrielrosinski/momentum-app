@@ -456,7 +456,7 @@ const styles = StyleSheet.create({
   },
   // Input Styles
   inputWrapper: {
-    marginBottom: spacing.md,
+    marginBottom: 15,
   },
   inputWithIcon: {
     position: 'relative',
@@ -467,14 +467,15 @@ const styles = StyleSheet.create({
   cardIcon: {
     position: 'absolute',
     right: spacing.md,
-    top: 18,
+    top: 15,
     width: 24,
     height: 24,
   },
   splitRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    gap: spacing.md,
+    gap: 15,
+    marginBottom: 15,
   },
   splitInput: {
     flex: 1,

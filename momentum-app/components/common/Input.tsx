@@ -79,19 +79,20 @@ export const Input: React.FC<InputProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.background,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    backgroundColor: colors.backgroundWhite,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 10,
+    height: 54,
     paddingHorizontal: spacing.inputPadding.horizontal,
-    paddingVertical: spacing.inputPadding.vertical,
     justifyContent: 'center',
   },
   containerFocused: {
-    borderBottomColor: colors.primary,
+    borderColor: colors.primary,
   },
   containerError: {
     backgroundColor: colors.errorLight,
-    borderBottomColor: colors.error,
+    borderColor: colors.error,
   },
   input: {
     ...typography.input,
