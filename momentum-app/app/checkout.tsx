@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPaymentInfo, completePurchase } from '../store/slices/checkoutSlice';
-import { Header, Button, Input, PricingSummary, CardBrandLogos } from '../components';
+import { Header, Button, Input, CardBrandLogos } from '../components';
 import { colors, spacing, typography } from '../constants';
 import { RootState } from '../store';
 import {
@@ -188,21 +188,67 @@ export default function CheckoutScreen() {
           showsVerticalScrollIndicator={false}
           testID="checkoutScreen.scrollView"
         >
-          {/* Pricing Summary */}
-          <PricingSummary
-            planTitle="4 Week Plan"
-            fullPrice={fullPrice}
-            currentPrice={currentPrice}
-            promoCode={isDiscountActive ? promoCode : undefined}
-            isDiscountActive={isDiscountActive}
-            testID="checkoutScreen.pricingSummary"
-          />
-
-          {/* Card Brand Logos */}
-          <CardBrandLogos testID="checkoutScreen.cardBrands" />
-
-          {/* Payment Form Card */}
+          {/* Main White Container - All 5 components inside */}
           <View style={styles.formCard} testID="checkoutScreen.formCard">
+            {/* Section 1: Pricing with bottom border */}
+            <View style={styles.pricingSection} testID="checkoutScreen.pricingSection">
+              {/* Row 1: 4 Week Plan */}
+              <View style={styles.pricingRow}>
+                <Text style={styles.planTitle}>4 Week Plan</Text>
+                <Text style={styles.fullPriceText}>${fullPrice.toFixed(2)}</Text>
+              </View>
+
+              {/* Row 2: Discount row (if active) */}
+              {isDiscountActive && (
+                <View style={styles.discountRow}>
+                  <Text style={styles.discountLabel}>Your 50% intro discount</Text>
+                  <Text style={styles.discountAmount}>-${(fullPrice - currentPrice).toFixed(2)}</Text>
+                </View>
+              )}
+
+              {/* Row 3: Promo code box (if active) */}
+              {isDiscountActive && promoCode && (
+                <View style={styles.promoCodeBox}>
+                  <Image
+                    source={require('../assets/icons/ticket.png')}
+                    style={styles.ticketIcon}
+                    resizeMode="contain"
+                  />
+                  <Text style={styles.promoCodeText}>
+                    Applied promo code: <Text style={styles.promoCodeValue}>{promoCode}</Text>
+                  </Text>
+                </View>
+              )}
+            </View>
+
+            {/* Section 2: Total today */}
+            <View style={styles.totalSection}>
+              <View style={styles.totalRow}>
+                <Text style={styles.totalLabel}>Total today:</Text>
+                <Text style={styles.totalPrice}>${currentPrice.toFixed(2)}</Text>
+              </View>
+
+              {/* Savings message (if discount active) */}
+              {isDiscountActive && (
+                <View style={styles.savingsRow}>
+                  <Image
+                    source={require('../assets/icons/flame.png')}
+                    style={styles.flameIcon}
+                    resizeMode="contain"
+                  />
+                  <Text style={styles.savingsText}>
+                    You just saved ${(fullPrice - currentPrice).toFixed(2)} (50% OFF)
+                  </Text>
+                </View>
+              )}
+            </View>
+
+            {/* Section 3: Card Brand Logos */}
+            <View style={styles.cardBrandsSection}>
+              <CardBrandLogos testID="checkoutScreen.cardBrands" />
+            </View>
+
+            {/* Section 4: Payment Form Inputs */}
             {/* Credit Card Number */}
             <View style={styles.inputWrapper} testID="checkoutScreen.cardNumberWrapper">
               <View style={styles.inputWithIcon}>
@@ -216,7 +262,7 @@ export default function CheckoutScreen() {
                   testID="checkoutScreen.cardNumberInput"
                 />
                 <Image
-                  source={require('../assets/icons/visa.png')}
+                  source={require('../assets/icons/credit-card.png')}
                   style={styles.cardIcon}
                   resizeMode="contain"
                 />
@@ -259,24 +305,24 @@ export default function CheckoutScreen() {
                 testID="checkoutScreen.nameInput"
               />
             </View>
-          </View>
 
-          {/* Buy Now Button */}
-          <Button
-            title="Buy Now"
-            onPress={handleBuyNow}
-            variant="success"
-            disabled={isProcessing}
-            icon={
-              <Image
-                source={require('../assets/icons/lock.png')}
-                style={styles.lockIcon}
-                resizeMode="contain"
-                testID="checkoutScreen.lockIcon"
-              />
-            }
-            testID="checkoutScreen.buyNowButton"
-          />
+            {/* Section 5: Buy Now Button */}
+            <Button
+              title="Buy Now"
+              onPress={handleBuyNow}
+              variant="success"
+              disabled={isProcessing}
+              icon={
+                <Image
+                  source={require('../assets/icons/lock2.png')}
+                  style={styles.lockIcon}
+                  resizeMode="contain"
+                  testID="checkoutScreen.lockIcon"
+                />
+              }
+              testID="checkoutScreen.buyNowButton"
+            />
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -303,14 +349,111 @@ const styles = StyleSheet.create({
   formCard: {
     backgroundColor: colors.backgroundWhite,
     borderRadius: spacing.cardRadius,
-    padding: spacing.md,
-    marginBottom: spacing.lg,
+    padding: spacing.lg,
     shadowColor: colors.shadowDark,
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
     elevation: 2,
   },
+  // Pricing Section Styles
+  pricingSection: {
+    paddingBottom: spacing.md,
+    marginBottom: spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.background, // #EFF1F5
+  },
+  pricingRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.sm,
+  },
+  planTitle: {
+    ...typography.bodyMedium,
+    color: colors.textPrimary,
+  },
+  fullPriceText: {
+    ...typography.bodyMedium,
+    fontWeight: '600',
+    color: colors.textPrimary,
+  },
+  discountRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.md,
+  },
+  discountLabel: {
+    ...typography.bodySmall,
+    color: colors.textPrimary,
+  },
+  discountAmount: {
+    ...typography.bodySmall,
+    color: colors.error,
+    fontWeight: '600',
+  },
+  promoCodeBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.background, // #EFF1F5
+    padding: spacing.sm,
+    borderRadius: 6,
+    gap: spacing.xs,
+  },
+  ticketIcon: {
+    width: 18,
+    height: 18,
+    tintColor: colors.textSecondary,
+  },
+  promoCodeText: {
+    ...typography.bodySmall,
+    color: colors.textSecondary,
+  },
+  promoCodeValue: {
+    color: colors.textPrimary,
+    fontWeight: '600',
+  },
+  // Total Section
+  totalSection: {
+    marginBottom: spacing.lg,
+  },
+  totalRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.sm,
+  },
+  totalLabel: {
+    ...typography.bodyMedium,
+    fontWeight: '700',
+    color: colors.textPrimary,
+  },
+  totalPrice: {
+    ...typography.bodyMedium,
+    fontWeight: '700',
+    color: colors.textPrimary,
+  },
+  savingsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+  },
+  flameIcon: {
+    width: 16,
+    height: 16,
+  },
+  savingsText: {
+    ...typography.bodySmall,
+    color: colors.error,
+    fontWeight: '600',
+  },
+  // Card Brands Section
+  cardBrandsSection: {
+    marginBottom: spacing.lg,
+  },
+  // Input Styles
   inputWrapper: {
     marginBottom: spacing.md,
   },
@@ -324,7 +467,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: spacing.md,
     top: 18,
-    width: 40,
+    width: 24,
     height: 24,
   },
   splitRow: {
@@ -338,7 +481,6 @@ const styles = StyleSheet.create({
   lockIcon: {
     width: 16,
     height: 20,
-    marginRight: spacing.sm,
     tintColor: colors.backgroundWhite,
   },
 });
