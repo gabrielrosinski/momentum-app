@@ -104,9 +104,12 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
   },
   errorText: {
-    ...typography.error,
+    fontSize: 14,
+    fontWeight: typography.error.fontWeight,
     color: colors.error,
-    marginTop: spacing.xs,
-    marginLeft: spacing.inputPadding.horizontal,
+    marginTop: -10, // Negative margin to offset: 12px paddingBottom + 1px border + 2px lineHeight = -13px, +5px desired = -8px (using -10 for visual adjustment)
+    marginBottom: 0,
+    textAlign: 'center',
+    lineHeight: 14,
   },
 });
