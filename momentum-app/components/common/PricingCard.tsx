@@ -25,52 +25,54 @@ export const PricingCard: React.FC<PricingCardProps> = ({
   const borderColor = isDiscountActive ? colors.badge : colors.border;
 
   return (
-    <View style={[styles.container, { borderColor }]} testID={testID}>
+    <View style={[styles.container, { borderColor }]} testID={testID ?? 'pricingCard.container'}>
       {/* Top Row: Radio + Title | Per Day Price */}
-      <View style={styles.topRow}>
-        <View style={styles.leftSection}>
+      <View style={styles.topRow} testID="pricingCard.topRow">
+        <View style={styles.leftSection} testID="pricingCard.leftSection">
           {/* Radio Button */}
-          <View style={styles.radioOuter}>
-            {isSelected && <View style={styles.radioInner} />}
+          <View style={styles.radioOuter} testID="pricingCard.radioOuter">
+            {isSelected && <View style={styles.radioInner} testID="pricingCard.radioInner" />}
           </View>
 
           {/* Title */}
-          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.title} testID="pricingCard.title">{title}</Text>
         </View>
 
-        <View style={styles.rightSection}>
+        <View style={styles.rightSection} testID="pricingCard.rightSection">
           {/* Per Day Price */}
-          <Text style={styles.perDayPrice}>
-            {perDayPrice.toFixed(2)}{' '}
-            <Text style={styles.currency}>USD</Text>
-          </Text>
-          <Text style={styles.perDayLabel}>per day</Text>
+          <View style={styles.perDayRow} testID="pricingCard.perDayRow">
+            <Text style={styles.perDayPrice} testID="pricingCard.perDayPrice">
+              {perDayPrice.toFixed(2)}
+            </Text>
+            <Text style={styles.currency} testID="pricingCard.currency">USD</Text>
+          </View>
+          <Text style={styles.perDayLabel} testID="pricingCard.perDayLabel">per day</Text>
         </View>
       </View>
 
       {/* Price Display Row */}
-      <View style={styles.priceRow}>
+      <View style={styles.priceRow} testID="pricingCard.priceRow">
         {isDiscountActive ? (
           // Discount Active: Show strikethrough full price + discounted price
           <>
-            <Text style={styles.priceStrikethrough}>
+            <Text style={styles.priceStrikethrough} testID="pricingCard.priceStrikethrough">
               ${fullPrice.toFixed(2)} USD
             </Text>
-            <Text style={styles.priceDiscounted}>
+            <Text style={styles.priceDiscounted} testID="pricingCard.priceDiscounted">
               {' '}{currentPrice.toFixed(2)} USD
             </Text>
           </>
         ) : (
           // Discount Expired: Show only full price
-          <Text style={styles.priceFull}>
+          <Text style={styles.priceFull} testID="pricingCard.priceFull">
             ${currentPrice.toFixed(2)} USD
           </Text>
         )}
       </View>
 
       {/* Badge */}
-      <View style={styles.badge}>
-        <Text style={styles.badgeText}>MOST POPULAR</Text>
+      <View style={styles.badge} testID="pricingCard.badge">
+        <Text style={styles.badgeText} testID="pricingCard.badgeText">MOST POPULAR</Text>
       </View>
     </View>
   );
@@ -98,6 +100,11 @@ const styles = StyleSheet.create({
   },
   rightSection: {
     alignItems: 'flex-end',
+  },
+  perDayRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 2,
   },
 
   // Radio Button
@@ -127,14 +134,18 @@ const styles = StyleSheet.create({
 
   // Per Day Price
   perDayPrice: {
-    ...typography.bodyMedium,
+    fontSize: typography.body.fontSize,
     fontWeight: '600',
     color: colors.textPrimary,
+    lineHeight: typography.body.fontSize,
+    includeFontPadding: false,
   },
   currency: {
-    ...typography.caption,
+    fontSize: typography.bodySmall.fontSize,
     fontWeight: '400',
     color: colors.textPrimary,
+    lineHeight: typography.bodySmall.fontSize,
+    includeFontPadding: false,
   },
   perDayLabel: {
     ...typography.caption,

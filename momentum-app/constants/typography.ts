@@ -30,7 +30,7 @@ export const typography = {
 
   // Body Text
   body: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '700' as const,
     lineHeight: 24,
     letterSpacing: 0,
@@ -42,7 +42,7 @@ export const typography = {
     letterSpacing: 0,
   },
   bodySmall: {
-    fontSize: 14,
+    fontSize: 10,
     fontWeight: '400' as const,
     lineHeight: 20,
     letterSpacing: 0,
