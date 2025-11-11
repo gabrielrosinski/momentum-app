@@ -33,11 +33,7 @@ export const spacing = {
 
   // Border radius
   borderRadius: {
-    xs: BASE_UNIT * 1,     // 4px
-    sm: BASE_UNIT * 2,     // 8px
-    md: BASE_UNIT * 3,     // 12px
-    lg: BASE_UNIT * 4,     // 16px
-    xl: BASE_UNIT * 6,     // 24px
+    sm: 6,
     full: 9999,            // Fully rounded
   },
 

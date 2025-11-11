@@ -6,12 +6,14 @@ export interface CountdownTimerProps {
   remainingTime: number; // milliseconds
   showLabels?: boolean;
   size?: 'small' | 'medium' | 'large';
+  testID?: string;
 }
 
 export const CountdownTimer: React.FC<CountdownTimerProps> = ({
   remainingTime,
   showLabels = true,
   size = 'medium',
+  testID,
 }) => {
   // Convert milliseconds to minutes and seconds
   const totalSeconds = Math.floor(remainingTime / 1000);
@@ -35,17 +37,28 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
   ];
 
   return (
-    <View style={styles.container}>
-      <View style={styles.timeGroup}>
-        <Text style={timerStyle}>{formattedMinutes}</Text>
-        {showLabels && <Text style={labelStyle}>minutes</Text>}
-      </View>
+    <View style={styles.container} testID={testID ?? 'countdownTimer.container'}>
+      <View style={styles.row} testID="countdownTimer.row">
+        {/* Minutes Column */}
+        <View style={styles.timeUnit} testID="countdownTimer.minutesColumn">
+          <Text style={timerStyle} testID="countdownTimer.minutes">{formattedMinutes}</Text>
+          {showLabels && (
+            <Text style={labelStyle} testID="countdownTimer.minutesLabel">minutes</Text>
+          )}
+        </View>
 
-      <Text style={timerStyle}>:</Text>
+        {/* Separator */}
+        <View style={styles.separatorColumn} testID="countdownTimer.separatorColumn">
+          <Text style={[timerStyle, styles.separator]} testID="countdownTimer.separator">:</Text>
+        </View>
 
-      <View style={styles.timeGroup}>
-        <Text style={timerStyle}>{formattedSeconds}</Text>
-        {showLabels && <Text style={labelStyle}>seconds</Text>}
+        {/* Seconds Column */}
+        <View style={styles.timeUnit} testID="countdownTimer.secondsColumn">
+          <Text style={timerStyle} testID="countdownTimer.seconds">{formattedSeconds}</Text>
+          {showLabels && (
+            <Text style={labelStyle} testID="countdownTimer.secondsLabel">seconds</Text>
+          )}
+        </View>
       </View>
     </View>
   );
@@ -61,12 +74,23 @@ export const formatTime = (milliseconds: number): string => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.xs,
+    justifyContent: 'center',
   },
-  timeGroup: {
+  row: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  timeUnit: {
     alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  separatorColumn: {
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 6,
+    paddingTop: 0,
   },
   timer: {
     ...typography.timer,
@@ -81,10 +105,14 @@ const styles = StyleSheet.create({
     fontSize: 32,
     lineHeight: 40,
   },
+  separator: {
+    // Inherits from timer style
+  },
   label: {
     ...typography.timerLabel,
-    color: colors.textSecondary,
+    color: colors.textPrimary,
     textTransform: 'lowercase',
+    marginTop: 4,
   },
   labelSmall: {
     fontSize: 8,

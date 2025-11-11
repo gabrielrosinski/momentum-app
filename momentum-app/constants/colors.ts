@@ -37,6 +37,7 @@ export const colors = {
   // Special
   discount: '#FF0000',          // Red (discount text, savings)
   timerGreen: '#0BB881',        // Green (countdown timer)
+  timerBackGround: '#D1F0EA',   // Light mint green background
   promoCodeBorder: '#50C9A0',   // Green (dashed border on promo box)
 
   // Shadows (for elevation)
