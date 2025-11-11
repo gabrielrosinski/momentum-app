@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Header, CardBrandLogos } from '../components';
@@ -51,13 +51,8 @@ export default function CheckoutScreen() {
           testID="checkoutScreen.header"
         />
 
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles.content}
-          showsVerticalScrollIndicator={false}
-          testID="checkoutScreen.scrollView"
-        >
-          {/* Main White Container - All 5 sections inside */}
+        {/* Main White Container - All 5 sections inside */}
+        <View style={styles.content}>
           <View style={styles.formCard} testID="checkoutScreen.formCard">
             <CheckoutPricingSection
               fullPrice={checkoutData.fullPrice}
@@ -91,7 +86,7 @@ export default function CheckoutScreen() {
               testID="checkoutScreen.buyNowButton"
             />
           </View>
-        </ScrollView>
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -106,10 +101,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
-  scrollView: {
-    flex: 1,
-  },
   content: {
+    flex: 1,
     paddingHorizontal: spacing.screenPadding.horizontal,
     paddingTop: spacing.lg,
     paddingBottom: spacing.xxl,
