@@ -1,23 +1,47 @@
 import { View, Text, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header } from '../components';
 import { colors } from '../constants';
 
 export default function ThankYouScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Thank you</Text>
-    </View>
+    <SafeAreaView style={styles.safeArea} testID="thankYouScreen.safeArea">
+      <View style={styles.container} testID="thankYouScreen.container">
+        {/* Header with logo only, no back button */}
+        <Header
+          showBackButton={false}
+          testID="thankYouScreen.header"
+        />
+
+        {/* Thank You Message - centered */}
+        <View style={styles.messageContainer} testID="thankYouScreen.messageContainer">
+          <Text style={styles.message} testID="thankYouScreen.message">
+            Thank you
+          </Text>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
   container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  messageContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.background,
   },
-  text: {
-    fontSize: 24,
+  message: {
+    fontSize: 48,
+    fontWeight: '600',
     color: colors.success,
+    textAlign: 'center',
   },
 });
