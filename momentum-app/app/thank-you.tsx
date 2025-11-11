@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   message: {
     fontSize: 48,
     fontWeight: '600',
-    color: colors.success,
+    color: colors.accent,
     textAlign: 'center',
   },
 });
