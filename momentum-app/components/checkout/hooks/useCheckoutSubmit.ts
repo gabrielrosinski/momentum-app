@@ -41,25 +41,30 @@ export const useCheckoutSubmit = ({
 
     // Mock payment processing delay
     setTimeout(() => {
-      // Save payment info to Redux
-      dispatch(setPaymentInfo({
-        cardNumber: formValues.cardNumber.replace(/\s/g, ''),
-        expiryDate: formValues.expiryDate,
-        cvv: formValues.cvv,
-        nameOnCard: formValues.nameOnCard,
-      }));
+      try {
+        // Save payment info to Redux
+        dispatch(setPaymentInfo({
+          cardNumber: formValues.cardNumber.replace(/\s/g, ''),
+          expiryDate: formValues.expiryDate,
+          cvv: formValues.cvv,
+          nameOnCard: formValues.nameOnCard,
+        }));
 
-      // Complete purchase
-      dispatch(completePurchase({
-        name: userName,
-        email: userEmail,
-        amount: currentPrice,
-        promoCode: promoCode,
-        timestamp: Date.now(),
-      }));
+        // Complete purchase
+        dispatch(completePurchase({
+          name: userName,
+          email: userEmail,
+          amount: currentPrice,
+          promoCode: promoCode,
+          timestamp: Date.now(),
+        }));
 
-      // Navigate to thank you screen
-      router.push('/thank-you' as any);
+        // Navigate to thank you screen
+        router.push('/thank-you' as any);
+      } finally {
+        // Reset processing state
+        setIsProcessing(false);
+      }
     }, 1000);
   };
 

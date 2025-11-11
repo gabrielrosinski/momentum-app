@@ -8,6 +8,7 @@ import { loadTimerFromStorage } from '../store/slices/timerSlice';
 import { loadPurchaseDetails } from '../store/slices/checkoutSlice';
 import { loadPersistedData } from '../store/middleware/persistenceMiddleware';
 import { colors } from '../constants';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 
 function RootNavigator() {
   const dispatch = useDispatch();
@@ -49,8 +50,10 @@ function RootNavigator() {
 
 export default function RootLayout() {
   return (
-    <Provider store={store}>
-      <RootNavigator />
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <RootNavigator />
+      </Provider>
+    </ErrorBoundary>
   );
 }
