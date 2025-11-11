@@ -90,17 +90,17 @@ export default function ProductScreen() {
             perDayPrice={perDayPrice}
             testID="productScreen.pricingCard"
           />
-        </View>
 
-        {/* Footer with button */}
-        <View style={styles.footer} testID="productScreen.footer">
-          <Button
-            title="Get My Plan"
-            onPress={handleContinue}
-            variant="primary"
-            icon={<Text style={styles.buttonIcon} testID="productScreen.buttonIcon">→</Text>}
-            testID="productScreen.continueButton"
-          />
+          {/* Button with 20px margin under pricing card */}
+          <View style={styles.buttonContainer} testID="productScreen.buttonContainer">
+            <Button
+              title="Get My Plan"
+              onPress={handleContinue}
+              variant="primary"
+              icon={<Text style={styles.buttonIcon} testID="productScreen.buttonIcon">→</Text>}
+              testID="productScreen.continueButton"
+            />
+          </View>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -117,7 +117,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundWhite,
   },
   content: {
-    flex: 1,
     paddingHorizontal: spacing.screenPadding.horizontal,
     paddingTop: spacing.lg,
   },
@@ -131,11 +130,8 @@ const styles = StyleSheet.create({
   promoCodeBox: {
     marginBottom: 20,
   },
-  footer: {
-    paddingHorizontal: spacing.screenPadding.horizontal,
-    paddingBottom: layout.bottomButtonMargin,
-    paddingTop: spacing.md,
-    backgroundColor: colors.backgroundWhite,
+  buttonContainer: {
+    marginTop: 20,
   },
   buttonIcon: {
     fontSize: 18,

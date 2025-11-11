@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     paddingTop: spacing.md,
     paddingBottom: spacing.sm,
+    height: 95,
   },
   leftSection: {
     flexDirection: 'column',
