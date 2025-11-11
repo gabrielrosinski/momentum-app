@@ -4,9 +4,9 @@ export const colors = {
   primary: '#000000',           // Black (buttons, primary text)
 
   // Accent - Mint/Teal Green (from designs)
-  accent: '#50C9A0',            // Green (promo box, success, buy button)
+  accent: '#009F35',            // Green (buy button)
   accentLight: '#D4F4E8',       // Light green background for promo box
-  accentDark: '#3BA57D',        // Darker green for pressed states
+  accentDark: '#007A29',        // Darker green for pressed states
 
   // Status Colors
   error: '#FF0000',             // Red (errors, strikethrough prices)

@@ -481,8 +481,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   lockIcon: {
-    width: 16,
-    height: 20,
+    width: 16.3,
+    height: 18,
     tintColor: colors.backgroundWhite,
   },
 });

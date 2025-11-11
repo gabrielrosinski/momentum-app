@@ -63,8 +63,8 @@ export const Button: React.FC<ButtonProps> = ({
         />
       ) : (
         <View style={styles.buttonContent}>
-          <Text style={buttonTextStyle}>{title}</Text>
           {icon && <View style={styles.iconContainer}>{icon}</View>}
+          <Text style={buttonTextStyle}>{title}</Text>
         </View>
       )}
     </TouchableOpacity>
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   iconContainer: {
-    marginLeft: spacing.sm,
+    marginRight: 12,
   },
   buttonText: {
     ...typography.button,
