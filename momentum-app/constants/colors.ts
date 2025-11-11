@@ -18,7 +18,7 @@ export const colors = {
   disabled: '#7A7A7A',          // Gray (disabled buttons)
   border: '#D1D1D1',            // Light gray (input borders)
   borderLight: '#E8E8E8',       // Very light gray (subtle borders)
-  background: '#EBEBEB',        // Light gray (screen background)
+  background: '#EFF1F5',        // Light gray-blue (screen background)
   backgroundWhite: '#FFFFFF',   // White (cards, input backgrounds)
   inputBg: '#FFFFFF',           // White (input backgrounds)
   cardBg: '#FFFFFF',            // White (card backgrounds)

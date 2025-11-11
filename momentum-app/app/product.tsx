@@ -110,11 +110,11 @@ export default function ProductScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: colors.backgroundWhite,
+    backgroundColor: colors.background,
   },
   container: {
     flex: 1,
-    backgroundColor: colors.backgroundWhite,
+    backgroundColor: colors.background,
   },
   content: {
     paddingHorizontal: spacing.screenPadding.horizontal,

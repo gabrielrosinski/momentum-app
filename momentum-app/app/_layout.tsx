@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import { Provider, useDispatch } from 'react-redux';
 import { store } from '../store';
 import { setEmail, setName, loadPromoCode } from '../store/slices/userSlice';
 import { loadTimerFromStorage } from '../store/slices/timerSlice';
 import { loadPurchaseDetails } from '../store/slices/checkoutSlice';
 import { loadPersistedData } from '../store/middleware/persistenceMiddleware';
+import { colors } from '../constants';
 
 function RootNavigator() {
   const dispatch = useDispatch();
@@ -22,17 +24,26 @@ function RootNavigator() {
   }, [dispatch]);
 
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="index" />
-      <Stack.Screen name="name" />
-      <Stack.Screen name="product" />
-      <Stack.Screen name="checkout" />
-      <Stack.Screen name="thank-you" />
-    </Stack>
+    <>
+      <StatusBar
+        backgroundColor={colors.background}
+        style="dark"
+      />
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: colors.background,
+          },
+        }}
+      >
+        <Stack.Screen name="index" />
+        <Stack.Screen name="name" />
+        <Stack.Screen name="product" />
+        <Stack.Screen name="checkout" />
+        <Stack.Screen name="thank-you" />
+      </Stack>
+    </>
   );
 }
 

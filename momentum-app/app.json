@@ -9,7 +9,14 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIViewControllerBasedStatusBarAppearance": true
+      },
+      "statusBar": {
+        "style": "dark",
+        "backgroundColor": "#EFF1F5"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +26,11 @@
         "monochromeImage": ""
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "statusBar": {
+        "backgroundColor": "#EFF1F5",
+        "barStyle": "dark-content"
+      }
     },
     "web": {
       "output": "static",
