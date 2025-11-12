@@ -1,5 +1,7 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
+import { PRICING } from '../../../constants/pricing';
+import { selectIsDiscountActive } from '../../../store/slices/timerSlice';
 
 export interface ProductData {
   promoCode: string;
@@ -17,15 +19,13 @@ export const useProductData = (): ProductData => {
   const promoCode = useSelector((state: RootState) => state.user.promoCode);
   const remainingTime = useSelector((state: RootState) => state.timer.remainingTime);
   const startTime = useSelector((state: RootState) => state.timer.startTime);
-  const isDiscountActive = useSelector((state: RootState) =>
-    !state.timer.expired && state.timer.startTime !== null
-  );
+  const isDiscountActive = useSelector(selectIsDiscountActive);
 
   // Pricing calculations
-  const fullPrice = 50.00;
-  const discountedPrice = 25.00;
+  const fullPrice = PRICING.FULL_PRICE;
+  const discountedPrice = PRICING.DISCOUNTED_PRICE;
   const currentPrice = isDiscountActive ? discountedPrice : fullPrice;
-  const perDayPrice = currentPrice / 28; // 28 days = 4 weeks
+  const perDayPrice = currentPrice / PRICING.DURATION_DAYS;
 
   return {
     promoCode,

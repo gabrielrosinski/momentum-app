@@ -5,7 +5,7 @@ import { useRouter } from 'expo-router';
 import { useDispatch } from 'react-redux';
 import { setName, generatePromoCode } from '../store/slices/userSlice';
 import { Header, Button, Input } from '../components';
-import { colors, spacing, typography, layout } from '../constants';
+import { colors, spacing, typography, layout, screenStyles } from '../constants';
 import { validateName, getNameError } from '../utils/validation';
 
 export default function NameScreen() {
@@ -66,9 +66,9 @@ export default function NameScreen() {
     : colors.textSecondary; // Empty/Typing/Invalid: gray
 
   return (
-    <SafeAreaView style={styles.safeArea} testID="nameScreen.safeArea">
+    <SafeAreaView style={screenStyles.safeArea} testID="nameScreen.safeArea">
       <KeyboardAvoidingView
-        style={styles.container}
+        style={screenStyles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         testID="nameScreen.keyboardAvoider"
       >
@@ -120,14 +120,6 @@ export default function NameScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
   contentWrapper: {
     flex: 1,
   },

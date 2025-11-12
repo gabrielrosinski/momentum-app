@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { generatePromoCode as generatePromoCodeUtil } from '../../utils/promoCode';
 
 interface UserState {
   email: string;
@@ -24,13 +25,7 @@ const userSlice = createSlice({
     },
     generatePromoCode: (state) => {
       if (state.name) {
-        const now = new Date();
-        const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
-                        'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-        const month = months[now.getMonth()];
-        const year = now.getFullYear().toString().slice(-2);
-
-        state.promoCode = `${state.name.toLowerCase()}_${month}${year}`;
+        state.promoCode = generatePromoCodeUtil(state.name);
       }
     },
     loadPromoCode: (state, action: PayloadAction<string>) => {

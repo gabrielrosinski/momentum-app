@@ -1,12 +1,12 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header } from '../components';
-import { colors } from '../constants';
+import { colors, screenStyles } from '../constants';
 
 export default function ThankYouScreen() {
   return (
-    <SafeAreaView style={styles.safeArea} testID="thankYouScreen.safeArea">
-      <View style={styles.container} testID="thankYouScreen.container">
+    <SafeAreaView style={screenStyles.safeArea} testID="thankYouScreen.safeArea">
+      <View style={screenStyles.container} testID="thankYouScreen.container">
         {/* Header with logo only, no back button */}
         <Header
           showBackButton={false}
@@ -25,14 +25,6 @@ export default function ThankYouScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
   messageContainer: {
     flex: 1,
     justifyContent: 'center',

@@ -9,7 +9,7 @@ import {
   useProductData,
   useProductTimer,
 } from '../components/product';
-import { colors, spacing } from '../constants';
+import { colors, spacing, screenStyles } from '../constants';
 
 export default function ProductScreen() {
   const router = useRouter();
@@ -30,9 +30,9 @@ export default function ProductScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea} testID="productScreen.safeArea">
+    <SafeAreaView style={screenStyles.safeArea} testID="productScreen.safeArea">
       <KeyboardAvoidingView
-        style={styles.container}
+        style={screenStyles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         testID="productScreen.keyboardAvoider"
       >
@@ -69,14 +69,6 @@ export default function ProductScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
   content: {
     paddingHorizontal: spacing.screenPadding.horizontal,
     paddingTop: spacing.lg,

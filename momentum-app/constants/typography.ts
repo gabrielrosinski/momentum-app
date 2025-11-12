@@ -61,50 +61,11 @@ export const typography = {
     lineHeight: 20,
     letterSpacing: 0.2,
   },
-  buttonLarge: {
-    fontSize: 18,
-    fontWeight: '600' as const,
-    lineHeight: 24,
-    letterSpacing: 0.3,
-  },
   input: {
     fontSize: 16,
     fontWeight: '400' as const,
     lineHeight: 20,
     letterSpacing: 0,
-  },
-  inputLabel: {
-    fontSize: 14,
-    fontWeight: '500' as const,
-    lineHeight: 18,
-    letterSpacing: 0,
-  },
-
-  // Special Typography
-  price: {
-    fontSize: 32,
-    fontWeight: '700' as const,
-    lineHeight: 40,
-    letterSpacing: -0.5,
-  },
-  priceMedium: {
-    fontSize: 24,
-    fontWeight: '700' as const,
-    lineHeight: 32,
-    letterSpacing: -0.3,
-  },
-  priceSmall: {
-    fontSize: 14,
-    fontWeight: '400' as const,
-    lineHeight: 18,
-    letterSpacing: 0,
-  },
-  priceStrikethrough: {
-    fontSize: 14,
-    fontWeight: '400' as const,
-    lineHeight: 18,
-    letterSpacing: 0,
-    textDecorationLine: 'line-through' as const,
   },
 
   // Timer
@@ -137,12 +98,6 @@ export const typography = {
     lineHeight: 16,
     letterSpacing: 0,
   },
-  captionMedium: {
-    fontSize: 12,
-    fontWeight: '500' as const,
-    lineHeight: 16,
-    letterSpacing: 0,
-  },
 
   // Error Text
   error: {
@@ -152,20 +107,3 @@ export const typography = {
     letterSpacing: 0,
   },
 };
-
-// Font families (using system defaults for React Native)
-export const fontFamilies = {
-  regular: 'System',
-  medium: 'System',
-  semiBold: 'System',
-  bold: 'System',
-};
-
-// Helper to create text style objects
-export const createTextStyle = (
-  typographyStyle: typeof typography[keyof typeof typography],
-  color: string
-) => ({
-  ...typographyStyle,
-  color,
-});

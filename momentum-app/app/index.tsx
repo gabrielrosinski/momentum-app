@@ -7,7 +7,7 @@ import { setEmail, resetUser } from '../store/slices/userSlice';
 import { resetTimer } from '../store/slices/timerSlice';
 import { clearPersistedData } from '../store/middleware/persistenceMiddleware';
 import { Header, Button, Input } from '../components';
-import { colors, spacing, typography, layout } from '../constants';
+import { colors, spacing, typography, layout, screenStyles } from '../constants';
 import { validateEmail, getEmailError } from '../utils/validation';
 
 export default function EmailScreen() {
@@ -76,9 +76,9 @@ export default function EmailScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea} testID="emailScreen.safeArea">
+    <SafeAreaView style={screenStyles.safeArea} testID="emailScreen.safeArea">
       <KeyboardAvoidingView
-        style={styles.container}
+        style={screenStyles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         testID="emailScreen.keyboardAvoider"
       >
@@ -149,14 +149,6 @@ export default function EmailScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
   contentWrapper: {
     flex: 1,
   },

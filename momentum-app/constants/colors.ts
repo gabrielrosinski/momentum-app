@@ -6,14 +6,11 @@ export const colors = {
   // Accent - Mint/Teal Green (from designs)
   accent: '#009F35',            // Green (buy button)
   accentLight: '#D4F4E8',       // Light green background for promo box
-  accentDark: '#007A29',        // Darker green for pressed states
 
   // Status Colors
   error: '#FF0000',             // Red (errors, strikethrough prices)
   errorLight: '#FFE6E6',        // Light red (error input backgrounds - checkout)
   errorLightBg: '#FF45451A',    // Light red with 10% opacity (error input backgrounds - email/name)
-  success: '#0BB881',           // Green (confirmations, thank you)
-  warning: '#FFA726',           // Orange (warnings if needed)
 
   // UI Elements
   disabled: '#7A7A7A',          // Gray (disabled buttons)
@@ -21,13 +18,10 @@ export const colors = {
   borderLight: '#E8E8E8',       // Very light gray (subtle borders)
   background: '#EFF1F5',        // Light gray-blue (screen background)
   backgroundWhite: '#FFFFFF',   // White (cards, input backgrounds)
-  inputBg: '#FFFFFF',           // White (input backgrounds)
-  cardBg: '#FFFFFF',            // White (card backgrounds)
 
   // Text
   textPrimary: '#000000',       // Black (primary text)
   textSecondary: '#999999',     // Dark gray (secondary text)
-  textTertiary: '#9B9B9B',      // Light gray (tertiary text, placeholders)
   textPlaceholder: '#A0A0A0',   // Gray (input placeholders)
   textDisabled: '#CCCCCC',      // Very light gray (disabled text)
 
@@ -36,33 +30,10 @@ export const colors = {
   badgeText: '#FFFFFF',         // White (badge text)
 
   // Special
-  discount: '#FF0000',          // Red (discount text, savings)
   timerGreen: '#0BB881',        // Green (countdown timer)
   timerBackGround: '#D1F0EA',   // Light mint green background
   promoCodeBorder: '#50C9A0',   // Green (dashed border on promo box)
 
   // Shadows (for elevation)
-  shadowLight: 'rgba(0, 0, 0, 0.05)',
-  shadowMedium: 'rgba(0, 0, 0, 0.1)',
   shadowDark: 'rgba(0, 0, 0, 0.15)',
-};
-
-// Color aliases for semantic usage
-export const semanticColors = {
-  buttonPrimary: colors.primary,
-  buttonPrimaryText: colors.backgroundWhite,
-  buttonSuccess: colors.accent,
-  buttonSuccessText: colors.backgroundWhite,
-  buttonDisabled: colors.disabled,
-  buttonDisabledText: colors.textDisabled,
-
-  inputBackground: colors.inputBg,
-  inputBorder: colors.border,
-  inputText: colors.textPrimary,
-  inputPlaceholder: colors.textPlaceholder,
-  inputError: colors.error,
-  inputErrorBg: colors.errorLight,
-
-  cardBackground: colors.cardBg,
-  screenBackground: colors.background,
 };

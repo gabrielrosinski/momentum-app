@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors, typography, spacing } from '../../constants';
+import { formatTime } from '../../utils/formatTime';
 
 export interface CountdownTimerProps {
   remainingTime: number; // milliseconds
@@ -62,14 +63,6 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
       </View>
     </View>
   );
-};
-
-// Helper function to format time for display (can be used elsewhere)
-export const formatTime = (milliseconds: number): string => {
-  const totalSeconds = Math.floor(milliseconds / 1000);
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 };
 
 const styles = StyleSheet.create({

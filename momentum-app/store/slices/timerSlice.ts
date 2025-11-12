@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../index';
 
 interface TimerState {
   startTime: number | null;
@@ -63,13 +64,10 @@ const timerSlice = createSlice({
 });
 
 export const { startTimer, updateRemainingTime, expireTimer, loadTimerFromStorage, resetTimer } = timerSlice.actions;
-export default timerSlice.reducer;
 
-// Helper function to format time
-export const formatTime = (milliseconds: number): string => {
-  const totalSeconds = Math.floor(milliseconds / 1000);
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-
-  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+// Selectors
+export const selectIsDiscountActive = (state: RootState): boolean => {
+  return !state.timer.expired && state.timer.startTime !== null;
 };
+
+export default timerSlice.reducer;

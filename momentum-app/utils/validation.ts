@@ -34,8 +34,7 @@ export const getCardNumberError = (cardNumber: string): string | null => {
   const cleanNumber = cardNumber.replace(/[\s-]/g, '');
   if (cleanNumber.length === 0) return null;
   if (!/^\d+$/.test(cleanNumber)) return 'Card number must contain only digits';
-  if (cleanNumber.length < 16) return 'Card number must be 16 digits';
-  if (cleanNumber.length > 16) return 'Card number must be 16 digits';
+  if (cleanNumber.length !== 16) return 'Card number must be 16 digits';
   return null;
 };
 
@@ -78,8 +77,7 @@ export const getCVVError = (cvv: string): string | null => {
   if (!cvv) return null;
   if (cvv.length === 0) return null;
   if (!/^\d+$/.test(cvv)) return 'CVV must contain only digits';
-  if (cvv.length < 3) return 'CVV must be 3-4 digits';
-  if (cvv.length > 4) return 'CVV must be 3-4 digits';
+  if (cvv.length < 3 || cvv.length > 4) return 'CVV must be 3-4 digits';
   return null;
 };
 

@@ -1,3 +1,5 @@
+import { MONTH_NAMES } from '../constants';
+
 /**
  * Generate a promo code in the format: name_month25
  * Example: alex_nov25
@@ -8,10 +10,8 @@
 export const generatePromoCode = (name: string): string => {
   const now = new Date();
 
-  // Month mapping
-  const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
-                  'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-  const month = months[now.getMonth()];
+  // Get month from constant
+  const month = MONTH_NAMES[now.getMonth()];
 
   // Year (last 2 digits)
   const year = now.getFullYear().toString().slice(-2);

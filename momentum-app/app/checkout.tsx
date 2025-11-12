@@ -11,7 +11,7 @@ import {
   usePaymentForm,
   useCheckoutSubmit,
 } from '../components/checkout';
-import { colors, spacing } from '../constants';
+import { colors, spacing, screenStyles } from '../constants';
 
 export default function CheckoutScreen() {
   const router = useRouter();
@@ -38,9 +38,9 @@ export default function CheckoutScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea} testID="checkoutScreen.safeArea">
+    <SafeAreaView style={screenStyles.safeArea} testID="checkoutScreen.safeArea">
       <KeyboardAvoidingView
-        style={styles.container}
+        style={screenStyles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         testID="checkoutScreen.keyboardAvoider"
       >
@@ -99,14 +99,6 @@ export default function CheckoutScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
   scrollView: {
     flex: 1,
   },
