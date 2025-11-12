@@ -29,6 +29,7 @@ export const PaymentFormFields: React.FC<PaymentFormFieldsProps> = ({
             keyboardType="number-pad"
             error={errors.cardNumberError || undefined}
             variant="checkout"
+            errorTextStyle={{ fontSize: 12, marginTop: 5, marginBottom: 0, textAlign: 'center' }}
             style={styles.input}
             testID={`${testID}.cardNumberInput`}
           />
@@ -50,7 +51,7 @@ export const PaymentFormFields: React.FC<PaymentFormFieldsProps> = ({
             keyboardType="number-pad"
             error={errors.expiryError || undefined}
             variant="checkout"
-            errorTextStyle={{ fontSize: 12, marginTop: 5, marginBottom: 0, textAlign: 'left' }}
+            errorTextStyle={{ fontSize: 12, marginTop: 5, marginBottom: 0, textAlign: 'center' }}
             testID={`${testID}.expiryInput`}
           />
         </View>
@@ -62,7 +63,7 @@ export const PaymentFormFields: React.FC<PaymentFormFieldsProps> = ({
             keyboardType="number-pad"
             error={errors.cvvError || undefined}
             variant="checkout"
-            errorTextStyle={{ fontSize: 12, marginTop: 5, marginBottom: 0, textAlign: 'left' }}
+            errorTextStyle={{ fontSize: 12, marginTop: 5, marginBottom: 0, textAlign: 'center' }}
             testID={`${testID}.cvvInput`}
           />
         </View>
@@ -77,6 +78,7 @@ export const PaymentFormFields: React.FC<PaymentFormFieldsProps> = ({
           autoCapitalize="words"
           error={errors.nameError || undefined}
           variant="checkout"
+          errorTextStyle={{ fontSize: 12, marginTop: 5, marginBottom: 0, textAlign: 'center' }}
           style={styles.input}
           testID={`${testID}.nameInput`}
         />
