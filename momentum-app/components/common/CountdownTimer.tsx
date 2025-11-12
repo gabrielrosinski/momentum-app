@@ -10,7 +10,7 @@ export interface CountdownTimerProps {
   testID?: string;
 }
 
-export const CountdownTimer: React.FC<CountdownTimerProps> = ({
+const CountdownTimerComponent: React.FC<CountdownTimerProps> = ({
   remainingTime,
   showLabels = true,
   size = 'medium',
@@ -64,6 +64,9 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
     </View>
   );
 };
+
+// Memoize to prevent unnecessary re-renders when props haven't changed
+export const CountdownTimer = React.memo(CountdownTimerComponent);
 
 const styles = StyleSheet.create({
   container: {

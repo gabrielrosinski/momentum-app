@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
 import { PRICING } from '../../../constants/pricing';
@@ -21,11 +22,20 @@ export const useProductData = (): ProductData => {
   const startTime = useSelector((state: RootState) => state.timer.startTime);
   const isDiscountActive = useSelector(selectIsDiscountActive);
 
-  // Pricing calculations
+  // Pricing constants
   const fullPrice = PRICING.FULL_PRICE;
   const discountedPrice = PRICING.DISCOUNTED_PRICE;
-  const currentPrice = isDiscountActive ? discountedPrice : fullPrice;
-  const perDayPrice = currentPrice / PRICING.DURATION_DAYS;
+
+  // Memoized pricing calculations - only recalculate when isDiscountActive changes
+  const currentPrice = useMemo(
+    () => (isDiscountActive ? discountedPrice : fullPrice),
+    [isDiscountActive, discountedPrice, fullPrice]
+  );
+
+  const perDayPrice = useMemo(
+    () => currentPrice / PRICING.DURATION_DAYS,
+    [currentPrice]
+  );
 
   return {
     promoCode,

@@ -1,5 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Middleware } from '@reduxjs/toolkit';
+import { setEmail, setName, generatePromoCode } from '../slices/userSlice';
+import { startTimer, expireTimer } from '../slices/timerSlice';
+import { completePurchase } from '../slices/checkoutSlice';
 
 export const STORAGE_KEYS = {
   USER_EMAIL: '@momentum/user_email',
@@ -10,54 +13,40 @@ export const STORAGE_KEYS = {
   PURCHASE_DETAILS: '@momentum/purchase_details',
 };
 
-export const persistenceMiddleware: Middleware<{}, any> = (store) => (next) => (action: any) => {
+export const persistenceMiddleware: Middleware = (store) => (next) => (action) => {
   const result = next(action);
 
-  // Sync specific actions to AsyncStorage
-  switch (action.type) {
-    case 'user/setEmail':
-      AsyncStorage.setItem(STORAGE_KEYS.USER_EMAIL, action.payload).catch((error) =>
-        console.error('Error saving email:', error)
-      );
-      break;
-
-    case 'user/setName':
-      AsyncStorage.setItem(STORAGE_KEYS.USER_NAME, action.payload).catch((error) =>
-        console.error('Error saving name:', error)
-      );
-      break;
-
-    case 'user/generatePromoCode': {
-      const state = store.getState();
-      AsyncStorage.setItem(STORAGE_KEYS.PROMO_CODE, state.user.promoCode).catch((error) =>
-        console.error('Error saving promo code:', error)
-      );
-      break;
-    }
-
-    case 'timer/startTimer': {
-      const state = store.getState();
-      if (state.timer.startTime) {
-        AsyncStorage.setItem(
-          STORAGE_KEYS.TIMER_START,
-          state.timer.startTime.toString()
-        ).catch((error) => console.error('Error saving timer start:', error));
-      }
-      break;
-    }
-
-    case 'timer/expireTimer':
-      AsyncStorage.setItem(STORAGE_KEYS.TIMER_EXPIRED, 'true').catch((error) =>
-        console.error('Error saving timer expired state:', error)
-      );
-      break;
-
-    case 'checkout/completePurchase':
+  // Sync specific actions to AsyncStorage using type-safe action matching
+  if (setEmail.match(action)) {
+    AsyncStorage.setItem(STORAGE_KEYS.USER_EMAIL, action.payload).catch((error) =>
+      console.error('Error saving email:', error)
+    );
+  } else if (setName.match(action)) {
+    AsyncStorage.setItem(STORAGE_KEYS.USER_NAME, action.payload).catch((error) =>
+      console.error('Error saving name:', error)
+    );
+  } else if (generatePromoCode.match(action)) {
+    const state = store.getState();
+    AsyncStorage.setItem(STORAGE_KEYS.PROMO_CODE, state.user.promoCode).catch((error) =>
+      console.error('Error saving promo code:', error)
+    );
+  } else if (startTimer.match(action)) {
+    const state = store.getState();
+    if (state.timer.startTime) {
       AsyncStorage.setItem(
-        STORAGE_KEYS.PURCHASE_DETAILS,
-        JSON.stringify(action.payload)
-      ).catch((error) => console.error('Error saving purchase details:', error));
-      break;
+        STORAGE_KEYS.TIMER_START,
+        state.timer.startTime.toString()
+      ).catch((error) => console.error('Error saving timer start:', error));
+    }
+  } else if (expireTimer.match(action)) {
+    AsyncStorage.setItem(STORAGE_KEYS.TIMER_EXPIRED, 'true').catch((error) =>
+      console.error('Error saving timer expired state:', error)
+    );
+  } else if (completePurchase.match(action)) {
+    AsyncStorage.setItem(
+      STORAGE_KEYS.PURCHASE_DETAILS,
+      JSON.stringify(action.payload)
+    ).catch((error) => console.error('Error saving purchase details:', error));
   }
 
   return result;

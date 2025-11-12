@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, Image, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -40,22 +40,22 @@ export default function EmailScreen() {
     return () => clearTimeout(timer);
   }, [email]);
 
-  const handleContinue = () => {
+  const handleContinue = useCallback(() => {
     if (isValid) {
       dispatch(setEmail(email));
       router.push('/name' as AppRoute);
     } else if (email.length > 0) {
       setShowError(true);
     }
-  };
+  }, [isValid, email, dispatch, router]);
 
-  const handleChange = (text: string) => {
+  const handleChange = useCallback((text: string) => {
     setEmailValue(text);
     // Clear error immediately when user starts typing
     if (showError) {
       setShowError(false);
     }
-  };
+  }, [showError]);
 
   // Determine input text color based on validation state
   // Gray in all states except valid (black)
@@ -64,7 +64,7 @@ export default function EmailScreen() {
     : colors.textSecondary; // Empty/Typing/Invalid: gray
 
   // Dev: Reset all state (only visible in development mode)
-  const handleResetState = async () => {
+  const handleResetState = useCallback(async () => {
     try {
       await clearPersistedData();
       dispatch(resetUser());
@@ -74,7 +74,7 @@ export default function EmailScreen() {
       Alert.alert('Error', 'Failed to reset state');
       console.error('Reset error:', error);
     }
-  };
+  }, [dispatch]);
 
   return (
     <SafeAreaView style={screenStyles.safeArea} testID="emailScreen.safeArea">

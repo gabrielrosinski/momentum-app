@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -38,11 +38,11 @@ export default function NameScreen() {
     return () => clearTimeout(timer);
   }, [name]);
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     router.back();
-  };
+  }, [router]);
 
-  const handleContinue = () => {
+  const handleContinue = useCallback(() => {
     if (isValid) {
       dispatch(setName(name));
       dispatch(generatePromoCode());
@@ -50,15 +50,15 @@ export default function NameScreen() {
     } else if (name.length > 0) {
       setShowError(true);
     }
-  };
+  }, [isValid, name, dispatch, router]);
 
-  const handleChange = (text: string) => {
+  const handleChange = useCallback((text: string) => {
     setNameValue(text);
     // Clear error immediately when user starts typing
     if (showError) {
       setShowError(false);
     }
-  };
+  }, [showError]);
 
   // Determine input text color based on validation state
   // Gray in all states except valid (black)

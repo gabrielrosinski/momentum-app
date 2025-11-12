@@ -12,7 +12,7 @@ export interface PricingCardProps {
   testID?: string;
 }
 
-export const PricingCard: React.FC<PricingCardProps> = ({
+const PricingCardComponent: React.FC<PricingCardProps> = ({
   title,
   isSelected,
   isDiscountActive,
@@ -83,6 +83,9 @@ export const PricingCard: React.FC<PricingCardProps> = ({
     </View>
   );
 };
+
+// Memoize to prevent unnecessary re-renders when props haven't changed
+export const PricingCard = React.memo(PricingCardComponent);
 
 const styles = StyleSheet.create({
   container: {

@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -22,13 +23,13 @@ export default function ProductScreen() {
   useProductTimer({ startTime: productData.startTime });
 
   // Navigation handlers
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     router.back();
-  };
+  }, [router]);
 
-  const handleContinue = () => {
+  const handleContinue = useCallback(() => {
     router.push('/checkout' as AppRoute);
-  };
+  }, [router]);
 
   return (
     <SafeAreaView style={screenStyles.safeArea} testID="productScreen.safeArea">

@@ -11,7 +11,7 @@ export interface PromoCodeBoxProps {
   testID?: string;
 }
 
-export const PromoCodeBox: React.FC<PromoCodeBoxProps> = ({
+const PromoCodeBoxComponent: React.FC<PromoCodeBoxProps> = ({
   promoCode,
   remainingTime,
   style,
@@ -63,6 +63,9 @@ export const PromoCodeBox: React.FC<PromoCodeBoxProps> = ({
     </View>
   );
 };
+
+// Memoize to prevent unnecessary re-renders when props haven't changed
+export const PromoCodeBox = React.memo(PromoCodeBoxComponent);
 
 const styles = StyleSheet.create({
   container: {
