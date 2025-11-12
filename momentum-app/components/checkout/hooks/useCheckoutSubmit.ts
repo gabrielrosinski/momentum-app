@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'expo-router';
 import { useDispatch } from 'react-redux';
 import { setPaymentInfo, completePurchase } from '../../../store/slices/checkoutSlice';
 import { PaymentFormValues } from './usePaymentForm';
+import { TIMING } from '../../../constants/timing';
+import { AppRoute } from '../../../types/navigation';
 
 export interface UseCheckoutSubmitParams {
   userName: string;
@@ -29,6 +31,16 @@ export const useCheckoutSubmit = ({
   const router = useRouter();
   const dispatch = useDispatch();
   const [isProcessing, setIsProcessing] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleSubmit = () => {
     // Validate all fields
@@ -40,7 +52,7 @@ export const useCheckoutSubmit = ({
     setIsProcessing(true);
 
     // Mock payment processing delay
-    setTimeout(() => {
+    timeoutRef.current = setTimeout(() => {
       try {
         // Save payment info to Redux
         dispatch(setPaymentInfo({
@@ -60,12 +72,13 @@ export const useCheckoutSubmit = ({
         }));
 
         // Navigate to thank you screen
-        router.push('/thank-you' as any);
+        router.push('/thank-you' as AppRoute);
       } finally {
         // Reset processing state
         setIsProcessing(false);
+        timeoutRef.current = null;
       }
-    }, 1000);
+    }, TIMING.CHECKOUT_PROCESSING_DELAY);
   };
 
   return {

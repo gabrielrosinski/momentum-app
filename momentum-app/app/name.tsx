@@ -5,8 +5,9 @@ import { useRouter } from 'expo-router';
 import { useDispatch } from 'react-redux';
 import { setName, generatePromoCode } from '../store/slices/userSlice';
 import { Header, Button, Input } from '../components';
-import { colors, spacing, typography, layout, screenStyles } from '../constants';
+import { colors, spacing, typography, layout, screenStyles, TIMING } from '../constants';
 import { validateName, getNameError } from '../utils/validation';
+import { AppRoute } from '../types/navigation';
 
 export default function NameScreen() {
   const router = useRouter();
@@ -17,7 +18,7 @@ export default function NameScreen() {
   const error = getNameError(name);
   const isValid = name.length > 0 && validateName(name);
 
-  // Debounced validation - check 500ms after user stops typing
+  // Debounced validation - check after user stops typing
   useEffect(() => {
     if (name.length === 0) {
       setShowError(false);
@@ -25,15 +26,15 @@ export default function NameScreen() {
     }
 
     const timer = setTimeout(() => {
-      // After 500ms of no typing, validate
+      // After debounce delay, validate
       if (!validateName(name)) {
         setShowError(true);
       } else {
         setShowError(false);
       }
-    }, 500);
+    }, TIMING.INPUT_DEBOUNCE_DELAY);
 
-    // Clear timer if user types again before 500ms
+    // Clear timer if user types again before delay completes
     return () => clearTimeout(timer);
   }, [name]);
 
@@ -45,7 +46,7 @@ export default function NameScreen() {
     if (isValid) {
       dispatch(setName(name));
       dispatch(generatePromoCode());
-      router.push('/product' as any);
+      router.push('/product' as AppRoute);
     } else if (name.length > 0) {
       setShowError(true);
     }

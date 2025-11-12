@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { startTimer, updateRemainingTime } from '../../../store/slices/timerSlice';
+import { TIMING } from '../../../constants/timing';
 
 export interface UseProductTimerParams {
   startTime: number | null;
@@ -18,7 +19,7 @@ export const useProductTimer = ({ startTime }: UseProductTimerParams): void => {
     // Update remaining time every second
     const interval = setInterval(() => {
       dispatch(updateRemainingTime());
-    }, 1000);
+    }, TIMING.TIMER_UPDATE_INTERVAL);
 
     // Cleanup on unmount
     return () => clearInterval(interval);

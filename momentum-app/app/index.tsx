@@ -7,8 +7,9 @@ import { setEmail, resetUser } from '../store/slices/userSlice';
 import { resetTimer } from '../store/slices/timerSlice';
 import { clearPersistedData } from '../store/middleware/persistenceMiddleware';
 import { Header, Button, Input } from '../components';
-import { colors, spacing, typography, layout, screenStyles } from '../constants';
+import { colors, spacing, typography, layout, screenStyles, TIMING } from '../constants';
 import { validateEmail, getEmailError } from '../utils/validation';
+import { AppRoute } from '../types/navigation';
 
 export default function EmailScreen() {
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function EmailScreen() {
   const error = getEmailError(email);
   const isValid = email.length > 0 && validateEmail(email);
 
-  // Debounced validation - check 500ms after user stops typing
+  // Debounced validation - check after user stops typing
   useEffect(() => {
     if (email.length === 0) {
       setShowError(false);
@@ -27,22 +28,22 @@ export default function EmailScreen() {
     }
 
     const timer = setTimeout(() => {
-      // After 500ms of no typing, validate
+      // After debounce delay, validate
       if (!validateEmail(email)) {
         setShowError(true);
       } else {
         setShowError(false);
       }
-    }, 500);
+    }, TIMING.INPUT_DEBOUNCE_DELAY);
 
-    // Clear timer if user types again before 500ms
+    // Clear timer if user types again before delay completes
     return () => clearTimeout(timer);
   }, [email]);
 
   const handleContinue = () => {
     if (isValid) {
       dispatch(setEmail(email));
-      router.push('/name' as any);
+      router.push('/name' as AppRoute);
     } else if (email.length > 0) {
       setShowError(true);
     }

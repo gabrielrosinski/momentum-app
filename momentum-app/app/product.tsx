@@ -10,6 +10,7 @@ import {
   useProductTimer,
 } from '../components/product';
 import { colors, spacing, screenStyles } from '../constants';
+import { AppRoute } from '../types/navigation';
 
 export default function ProductScreen() {
   const router = useRouter();
@@ -26,7 +27,7 @@ export default function ProductScreen() {
   };
 
   const handleContinue = () => {
-    router.push('/checkout' as any);
+    router.push('/checkout' as AppRoute);
   };
 
   return (
