@@ -23,6 +23,7 @@ export interface InputProps {
   textColor?: string;
   editable?: boolean;
   errorTextStyle?: TextStyle;
+  variant?: 'default' | 'checkout';
   testID?: string;
 }
 
@@ -39,13 +40,14 @@ export const Input: React.FC<InputProps> = ({
   textColor,
   editable = true,
   errorTextStyle,
+  variant = 'default',
   testID,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const containerStyle = [
-    styles.container,
-    error && styles.containerError,
+    variant === 'checkout' ? styles.containerCheckout : styles.container,
+    error && (variant === 'checkout' ? styles.containerErrorCheckout : styles.containerError),
     isFocused && !error && styles.containerFocused,
     style,
   ];
@@ -80,7 +82,22 @@ export const Input: React.FC<InputProps> = ({
 };
 
 const styles = StyleSheet.create({
+  // Default variant (email/name screens) - border bottom only
   container: {
+    backgroundColor: colors.background,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.textSecondary,
+    height: 54,
+    paddingHorizontal: spacing.inputPadding.horizontal,
+    justifyContent: 'center',
+  },
+  containerError: {
+    backgroundColor: colors.errorLightBg,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.error,
+  },
+  // Checkout variant - full border
+  containerCheckout: {
     backgroundColor: colors.backgroundWhite,
     borderWidth: 1,
     borderColor: colors.border,
@@ -89,12 +106,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.inputPadding.horizontal,
     justifyContent: 'center',
   },
-  containerFocused: {
-    borderColor: colors.primary,
-  },
-  containerError: {
+  containerErrorCheckout: {
     backgroundColor: colors.errorLight,
     borderColor: colors.error,
+  },
+  containerFocused: {
+    borderColor: colors.primary,
   },
   input: {
     ...typography.input,

@@ -60,11 +60,10 @@ export default function NameScreen() {
   };
 
   // Determine input text color based on validation state
-  const inputTextColor = name.length === 0
-    ? colors.textSecondary // Empty: gray
-    : isValid
-      ? colors.textPrimary // Valid: black
-      : colors.textSecondary; // Invalid: gray
+  // Gray in all states except valid (black)
+  const inputTextColor = isValid && name.length > 0
+    ? colors.textPrimary // Valid: black
+    : colors.textSecondary; // Empty/Typing/Invalid: gray
 
   return (
     <SafeAreaView style={styles.safeArea} testID="nameScreen.safeArea">

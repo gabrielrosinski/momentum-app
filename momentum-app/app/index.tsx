@@ -57,11 +57,10 @@ export default function EmailScreen() {
   };
 
   // Determine input text color based on validation state
-  const inputTextColor = email.length === 0
-    ? colors.textSecondary // Empty: gray
-    : isValid
-      ? colors.textPrimary // Valid: black
-      : colors.textSecondary; // Invalid: gray
+  // Gray in all states except valid (black)
+  const inputTextColor = isValid && email.length > 0
+    ? colors.textPrimary // Valid: black
+    : colors.textSecondary; // Empty/Typing/Invalid: gray
 
   // Dev: Reset all state (only visible in development mode)
   const handleResetState = async () => {

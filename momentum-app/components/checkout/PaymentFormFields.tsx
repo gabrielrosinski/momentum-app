@@ -28,6 +28,7 @@ export const PaymentFormFields: React.FC<PaymentFormFieldsProps> = ({
             placeholder="Credit Card"
             keyboardType="number-pad"
             error={errors.cardNumberError || undefined}
+            variant="checkout"
             style={styles.input}
             testID={`${testID}.cardNumberInput`}
           />
@@ -48,6 +49,7 @@ export const PaymentFormFields: React.FC<PaymentFormFieldsProps> = ({
             placeholder="MM/YY"
             keyboardType="number-pad"
             error={errors.expiryError || undefined}
+            variant="checkout"
             errorTextStyle={{ fontSize: 12, marginTop: 5, marginBottom: 0, textAlign: 'left' }}
             testID={`${testID}.expiryInput`}
           />
@@ -59,6 +61,7 @@ export const PaymentFormFields: React.FC<PaymentFormFieldsProps> = ({
             placeholder="CVV"
             keyboardType="number-pad"
             error={errors.cvvError || undefined}
+            variant="checkout"
             errorTextStyle={{ fontSize: 12, marginTop: 5, marginBottom: 0, textAlign: 'left' }}
             testID={`${testID}.cvvInput`}
           />
@@ -73,6 +76,7 @@ export const PaymentFormFields: React.FC<PaymentFormFieldsProps> = ({
           placeholder="Name on card"
           autoCapitalize="words"
           error={errors.nameError || undefined}
+          variant="checkout"
           style={styles.input}
           testID={`${testID}.nameInput`}
         />

@@ -10,7 +10,8 @@ export const colors = {
 
   // Status Colors
   error: '#FF0000',             // Red (errors, strikethrough prices)
-  errorLight: '#FFE6E6',        // Light red (error input backgrounds)
+  errorLight: '#FFE6E6',        // Light red (error input backgrounds - checkout)
+  errorLightBg: '#FF45451A',    // Light red with 10% opacity (error input backgrounds - email/name)
   success: '#0BB881',           // Green (confirmations, thank you)
   warning: '#FFA726',           // Orange (warnings if needed)
 
