@@ -5,7 +5,7 @@ import { Provider, useDispatch } from 'react-redux';
 import { store } from '../store';
 import { setEmail, setName, loadPromoCode } from '../store/slices/userSlice';
 import { loadTimerFromStorage } from '../store/slices/timerSlice';
-import { loadPurchaseDetails } from '../store/slices/checkoutSlice';
+import { loadPurchaseDetails, setPaymentInfo } from '../store/slices/checkoutSlice';
 import { loadPersistedData } from '../store/middleware/persistenceMiddleware';
 import { colors } from '../constants';
 import { ErrorBoundary } from '../components/ErrorBoundary';
@@ -21,6 +21,7 @@ function RootNavigator() {
       if (data.promoCode) dispatch(loadPromoCode(data.promoCode));
       if (data.timerStart) dispatch(loadTimerFromStorage(data.timerStart));
       if (data.purchaseDetails) dispatch(loadPurchaseDetails(data.purchaseDetails));
+      if (data.paymentInfo) dispatch(setPaymentInfo(data.paymentInfo));
     });
   }, [dispatch]);
 

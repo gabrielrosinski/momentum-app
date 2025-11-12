@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPaymentInfo } from '../../../store/slices/checkoutSlice';
+import type { RootState } from '../../../store';
 import {
   validateCardNumber,
   validateExpiry,
@@ -39,11 +42,32 @@ export interface UsePaymentFormReturn {
 }
 
 export const usePaymentForm = (): UsePaymentFormReturn => {
-  // Form state
-  const [cardNumber, setCardNumber] = useState('');
-  const [expiryDate, setExpiryDate] = useState('');
-  const [cvv, setCvv] = useState('');
-  const [nameOnCard, setNameOnCard] = useState('');
+  const dispatch = useDispatch();
+
+  // Get persisted payment info from Redux
+  const persistedPaymentInfo = useSelector((state: RootState) => state.checkout.paymentInfo);
+
+  // Form state - initialize from Redux
+  const [cardNumber, setCardNumber] = useState(persistedPaymentInfo.cardNumber);
+  const [expiryDate, setExpiryDate] = useState(persistedPaymentInfo.expiryDate);
+  const [cvv, setCvv] = useState(persistedPaymentInfo.cvv);
+  const [nameOnCard, setNameOnCard] = useState(persistedPaymentInfo.nameOnCard);
+
+  // Sync with Redux when persisted data loads
+  useEffect(() => {
+    if (persistedPaymentInfo.cardNumber && persistedPaymentInfo.cardNumber !== cardNumber) {
+      setCardNumber(persistedPaymentInfo.cardNumber);
+    }
+    if (persistedPaymentInfo.expiryDate && persistedPaymentInfo.expiryDate !== expiryDate) {
+      setExpiryDate(persistedPaymentInfo.expiryDate);
+    }
+    if (persistedPaymentInfo.cvv && persistedPaymentInfo.cvv !== cvv) {
+      setCvv(persistedPaymentInfo.cvv);
+    }
+    if (persistedPaymentInfo.nameOnCard && persistedPaymentInfo.nameOnCard !== nameOnCard) {
+      setNameOnCard(persistedPaymentInfo.nameOnCard);
+    }
+  }, [persistedPaymentInfo]);
 
   // Validation errors
   const [cardNumberError, setCardNumberError] = useState<string | null>(null);
@@ -71,8 +95,10 @@ export const usePaymentForm = (): UsePaymentFormReturn => {
   const handleCardNumberChange = (text: string) => {
     const cleaned = text.replace(/\s/g, '');
     if (cleaned.length <= 16) {
-      setCardNumber(formatCardNumber(cleaned));
+      const formatted = formatCardNumber(cleaned);
+      setCardNumber(formatted);
       setCardNumberError(null);
+      dispatch(setPaymentInfo({ cardNumber: formatted }));
     }
   };
 
@@ -80,8 +106,10 @@ export const usePaymentForm = (): UsePaymentFormReturn => {
   const handleExpiryChange = (text: string) => {
     const cleaned = text.replace(/\D/g, '');
     if (cleaned.length <= 4) {
-      setExpiryDate(formatExpiry(cleaned));
+      const formatted = formatExpiry(cleaned);
+      setExpiryDate(formatted);
       setExpiryError(null);
+      dispatch(setPaymentInfo({ expiryDate: formatted }));
     }
   };
 
@@ -90,6 +118,7 @@ export const usePaymentForm = (): UsePaymentFormReturn => {
     if (text.length <= 4 && /^\d*$/.test(text)) {
       setCvv(text);
       setCvvError(null);
+      dispatch(setPaymentInfo({ cvv: text }));
     }
   };
 
@@ -97,6 +126,7 @@ export const usePaymentForm = (): UsePaymentFormReturn => {
   const handleNameChange = (text: string) => {
     setNameOnCard(text);
     setNameError(null);
+    dispatch(setPaymentInfo({ nameOnCard: text }));
   };
 
   // Validate all fields

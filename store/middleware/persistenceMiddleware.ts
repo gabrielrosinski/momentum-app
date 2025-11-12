@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Middleware } from '@reduxjs/toolkit';
 import { setEmail, setName, generatePromoCode } from '../slices/userSlice';
 import { startTimer, expireTimer } from '../slices/timerSlice';
-import { completePurchase } from '../slices/checkoutSlice';
+import { completePurchase, setPaymentInfo } from '../slices/checkoutSlice';
 
 export const STORAGE_KEYS = {
   USER_EMAIL: '@momentum/user_email',
@@ -11,6 +11,7 @@ export const STORAGE_KEYS = {
   TIMER_START: '@momentum/timer_start',
   TIMER_EXPIRED: '@momentum/timer_expired',
   PURCHASE_DETAILS: '@momentum/purchase_details',
+  PAYMENT_INFO: '@momentum/payment_info',
 };
 
 export const persistenceMiddleware: Middleware = (store) => (next) => (action) => {
@@ -47,6 +48,12 @@ export const persistenceMiddleware: Middleware = (store) => (next) => (action) =
       STORAGE_KEYS.PURCHASE_DETAILS,
       JSON.stringify(action.payload)
     ).catch((error) => console.error('Error saving purchase details:', error));
+  } else if (setPaymentInfo.match(action)) {
+    const state = store.getState();
+    AsyncStorage.setItem(
+      STORAGE_KEYS.PAYMENT_INFO,
+      JSON.stringify(state.checkout.paymentInfo)
+    ).catch((error) => console.error('Error saving payment info:', error));
   }
 
   return result;
@@ -55,12 +62,13 @@ export const persistenceMiddleware: Middleware = (store) => (next) => (action) =
 // Helper function to load persisted data
 export const loadPersistedData = async () => {
   try {
-    const [email, name, promoCode, timerStart, purchaseDetails] = await Promise.all([
+    const [email, name, promoCode, timerStart, purchaseDetails, paymentInfo] = await Promise.all([
       AsyncStorage.getItem(STORAGE_KEYS.USER_EMAIL),
       AsyncStorage.getItem(STORAGE_KEYS.USER_NAME),
       AsyncStorage.getItem(STORAGE_KEYS.PROMO_CODE),
       AsyncStorage.getItem(STORAGE_KEYS.TIMER_START),
       AsyncStorage.getItem(STORAGE_KEYS.PURCHASE_DETAILS),
+      AsyncStorage.getItem(STORAGE_KEYS.PAYMENT_INFO),
     ]);
 
     return {
@@ -69,6 +77,7 @@ export const loadPersistedData = async () => {
       promoCode: promoCode || '',
       timerStart: timerStart ? parseInt(timerStart) : null,
       purchaseDetails: purchaseDetails ? JSON.parse(purchaseDetails) : null,
+      paymentInfo: paymentInfo ? JSON.parse(paymentInfo) : null,
     };
   } catch (error) {
     console.error('Error loading persisted data:', error);
@@ -78,6 +87,7 @@ export const loadPersistedData = async () => {
       promoCode: '',
       timerStart: null,
       purchaseDetails: null,
+      paymentInfo: null,
     };
   }
 };
@@ -92,6 +102,7 @@ export const clearPersistedData = async () => {
       STORAGE_KEYS.TIMER_START,
       STORAGE_KEYS.TIMER_EXPIRED,
       STORAGE_KEYS.PURCHASE_DETAILS,
+      STORAGE_KEYS.PAYMENT_INFO,
     ]);
     console.log('All persisted data cleared successfully');
   } catch (error) {

@@ -2,18 +2,27 @@ import { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setName, generatePromoCode } from '../store/slices/userSlice';
 import { Header, Button, Input } from '../components';
 import { colors, spacing, typography, layout, screenStyles, TIMING } from '../constants';
 import { validateName, getNameError } from '../utils/validation';
 import { AppRoute } from '../types/navigation';
+import type { RootState } from '../store';
 
 export default function NameScreen() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [name, setNameValue] = useState('');
+  const persistedName = useSelector((state: RootState) => state.user.name);
+  const [name, setNameValue] = useState(persistedName);
   const [showError, setShowError] = useState(false);
+
+  // Sync with persisted name when it loads from AsyncStorage
+  useEffect(() => {
+    if (persistedName && persistedName !== name) {
+      setNameValue(persistedName);
+    }
+  }, [persistedName]);
 
   const error = getNameError(name);
   const isValid = name.length > 0 && validateName(name);

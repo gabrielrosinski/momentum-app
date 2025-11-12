@@ -2,20 +2,30 @@ import { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, Image, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setEmail, resetUser } from '../store/slices/userSlice';
 import { resetTimer } from '../store/slices/timerSlice';
+import { resetCheckout } from '../store/slices/checkoutSlice';
 import { clearPersistedData } from '../store/middleware/persistenceMiddleware';
 import { Header, Button, Input } from '../components';
 import { colors, spacing, typography, layout, screenStyles, TIMING } from '../constants';
 import { validateEmail, getEmailError } from '../utils/validation';
 import { AppRoute } from '../types/navigation';
+import type { RootState } from '../store';
 
 export default function EmailScreen() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [email, setEmailValue] = useState('');
+  const persistedEmail = useSelector((state: RootState) => state.user.email);
+  const [email, setEmailValue] = useState(persistedEmail);
   const [showError, setShowError] = useState(false);
+
+  // Sync with persisted email when it loads from AsyncStorage
+  useEffect(() => {
+    if (persistedEmail && persistedEmail !== email) {
+      setEmailValue(persistedEmail);
+    }
+  }, [persistedEmail]);
 
   const error = getEmailError(email);
   const isValid = email.length > 0 && validateEmail(email);
@@ -69,6 +79,9 @@ export default function EmailScreen() {
       await clearPersistedData();
       dispatch(resetUser());
       dispatch(resetTimer());
+      dispatch(resetCheckout());
+      setEmailValue(''); // Clear local state
+      setShowError(false);
       Alert.alert('Dev Reset', 'All state cleared! (AsyncStorage + Redux)');
     } catch (error) {
       Alert.alert('Error', 'Failed to reset state');
